@@ -12,14 +12,19 @@
         </div>
 
         <div class="row cart">
-            <p>This is going to be your cart... someday.</p>
+            <shopping-cart></shopping-cart>
         </div>
     </div>
 </template>
 
 <script>
+    import ShoppingCart from "./ShoppingCart";
+
     export default {
-        name: "Sidebar"
+        name: "Sidebar",
+        components: {
+            shoppingCart: ShoppingCart
+        }
     }
 </script>
 
@@ -28,5 +33,9 @@
         background: #fff;
         padding: 20px;
         border-radius: 6px;
+    }
+    .cart {
+        margin: 0 auto;
+        margin-top: 10px;
     }
 </style>

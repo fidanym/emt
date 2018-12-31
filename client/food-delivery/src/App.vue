@@ -1,18 +1,15 @@
 <template>
   <div id="app">
-    <header-jumbo></header-jumbo>
     <router-view/>
   </div>
 </template>
 
 <script>
   import Header from "./components/Header";
+  import BottomNav from "./components/Dashboard/BottomNav";
 
   export default {
-    name: "App",
-    components: {
-      headerJumbo: Header
-    }
+    name: "App"
   }
 </script>
 
