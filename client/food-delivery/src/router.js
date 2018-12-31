@@ -2,10 +2,10 @@ import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from './views/Home.vue'
 import Auth from "./views/Auth";
 import Login from "./components/Auth/Login";
 import Register from "./components/Auth/Register";
+import Restaurants from "./views/Restaurants";
 
 Vue.use(Router)
 
@@ -15,8 +15,8 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: Home
+      name: 'restaurants',
+      component: Restaurants
     },
     {
       path: '/auth',
