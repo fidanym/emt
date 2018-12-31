@@ -5,7 +5,7 @@ import Router from 'vue-router'
 import Auth from "./views/Auth";
 import Login from "./components/Auth/Login";
 import Register from "./components/Auth/Register";
-import Restaurants from "./views/Restaurants";
+import Dashboard from "./views/Dashboard";
 
 Vue.use(Router)
 
@@ -15,8 +15,8 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'restaurants',
-      component: Restaurants
+      name: 'dashboard',
+      component: Dashboard
     },
     {
       path: '/auth',

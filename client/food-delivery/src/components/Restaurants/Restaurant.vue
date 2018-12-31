@@ -2,7 +2,7 @@
     <div class="card border-success">
         <img class="card-img-top" src="https://via.placeholder.com/300x200?text=Placeholder" alt="placeholder image">
         <div class="card-body">
-            <h5 class="card-title">{{ title }}</h5>
+            <h5 class="card-title font-weight-bold">{{ title }}</h5>
             <p class="card-text">{{ description }}</p>
         </div>
 

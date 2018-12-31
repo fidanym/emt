@@ -1,6 +1,6 @@
 <template>
     <div class="container restaurants-container">
-        <h1 class="m-t-15">Pick a restaurant!</h1>
+        <h1 class="m-t-15 font-weight-bold">List of restaurants</h1>
         <div class="restaurants-container">
             <div class="card-columns">
                 <restaurant v-for="restaurant in restaurants" :title="restaurant.title" :description="restaurant.description"></restaurant>
@@ -10,7 +10,7 @@
 </template>
 
 <script>
-    import Restaurant from "../components/Restaurants/Restaurant";
+    import Restaurant from "./Restaurant";
 
     export default {
         name: "Restaurants",
@@ -40,7 +40,6 @@
 
 <style scoped>
     .restaurants-container {
-        margin-top: 50px;
         background: #fff;
         padding-bottom: 10px;
         padding-top: 10px;
