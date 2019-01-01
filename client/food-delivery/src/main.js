@@ -5,10 +5,10 @@ import router from './router'
 import store from './store'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faUser, faRunning, faTimes, faPlusSquare, faMinusSquare, faInfo } from '@fortawesome/free-solid-svg-icons'
+import { faUser, faRunning, faTimes, faPlusSquare, faMinusSquare, faInfo, faCreditCard } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-library.add(faUser, faRunning, faTimes, faPlusSquare, faMinusSquare, faInfo)
+library.add(faUser, faRunning, faTimes, faPlusSquare, faMinusSquare, faInfo, faCreditCard)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 Vue.config.productionTip = false

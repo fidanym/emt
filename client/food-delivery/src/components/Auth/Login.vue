@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h4 class="text-center m-b-20">Login</h4>
+        <h4 class="text-center m-b-20 font-weight-bold">Login</h4>
 
         <input type="text" class="form-control m-b-15" placeholder="Username">
         <input type="password" class="form-control" placeholder="Password">

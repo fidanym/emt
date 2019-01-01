@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h4 class="text-center m-b-20">Register</h4>
+        <h4 class="text-center m-b-20 font-weight-bold">Register</h4>
 
         <input type="email" class="form-control m-b-15" placeholder="Email address">
         <input type="text" class="form-control m-b-15" placeholder="Username">

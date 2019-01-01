@@ -1,8 +1,8 @@
 <template>
     <div class="jumbotron jumbotron-fluid">
         <div class="container">
-            <h1>Food Delivery</h1>
-            <p class="lead">This is a website that lets you order food from anywhere</p>
+            <img class="img-fluid m-b-20" alt="logo" src="../assets/logo.png" width="40%">
+            <p class="lead">The website that lets you order food from anywhere</p>
         </div>
     </div>
 </template>
@@ -16,5 +16,6 @@
 <style scoped>
     .jumbotron {
         background-color: #fff;
+        padding: 20px 0 30px 0;
     }
 </style>

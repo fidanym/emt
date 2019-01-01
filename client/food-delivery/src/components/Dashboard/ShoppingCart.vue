@@ -2,7 +2,9 @@
     <div class="shopping-cart">
         <div class="row">
             <div class="col-md-12">
+                <h5>Your shopping basket:</h5>
                 <cart-item v-for="item in items" :restaurant-name="item.restaurantName" :name="item.name" :price="item.price" :quantity="item.quantity" :total="item.total"></cart-item>
+                <h5 class="m-t-15"><span class="font-weight-bold">Total: </span> $45.50</h5>
             </div>
         </div>
     </div>
