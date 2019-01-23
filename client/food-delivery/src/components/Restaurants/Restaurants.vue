@@ -1,5 +1,5 @@
 <template>
-    <div class="container restaurants-container m-b-20">
+    <div class="container restaurants-container m-b-20 text-center">
         <h1 class="m-t-15 font-weight-bold">List of restaurants</h1>
         <div class="restaurants-container">
             <div class="card-columns">

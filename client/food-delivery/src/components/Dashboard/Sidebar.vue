@@ -4,7 +4,7 @@
         <hr>
         <div class="row">
             <div class="col-sm-6">
-                <button class="btn btn-light"><font-awesome-icon icon="user" /> Profile</button>
+                <router-link :to="'/profile'" class="btn btn-light"><font-awesome-icon icon="user" /> Profile</router-link>
             </div>
             <div class="col-sm-6">
                 <button class="btn btn-light"><font-awesome-icon icon="running" /> Other</button>

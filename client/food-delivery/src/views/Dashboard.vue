@@ -7,7 +7,7 @@
                     <sidebar></sidebar>
                 </div>
                 <div class="col-md-9">
-                    <restaurants></restaurants>
+                    <router-view></router-view>
                 </div>
             </div>
         </div>
@@ -25,7 +25,6 @@
         name: "Dashboard",
         components: {
             sidebar: Sidebar,
-            restaurants: Restaurants,
             headerJumbo: Header,
             bottomNav: BottomNav
         }

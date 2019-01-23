@@ -6,6 +6,8 @@ import Auth from "./views/Auth";
 import Login from "./components/Auth/Login";
 import Register from "./components/Auth/Register";
 import Dashboard from "./views/Dashboard";
+import Profile from "./views/Profile";
+import Restaurants from "./components/Restaurants/Restaurants";
 
 Vue.use(Router)
 
@@ -17,7 +19,22 @@ export default new Router({
       path: '/',
       name: 'dashboard',
       component: Dashboard,
-      meta: { requiresAuth: true }
+      redirect: '/restaurants',
+      meta: { requiresAuth: true },
+      children: [
+        {
+          path: 'profile',
+          name: 'profile',
+          component: Profile,
+          meta: { requiresAuth: true }
+        },
+        {
+          path: 'restaurants',
+          name: 'restaurants',
+          component: Restaurants,
+          meta: { requiresAuth: true }
+        }
+      ]
     },
     {
       path: '/auth',
