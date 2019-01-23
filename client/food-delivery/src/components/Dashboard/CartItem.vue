@@ -6,12 +6,12 @@
                     <h5 class="card-title">{{ item.name }}</h5>
                     <h6 class="card-subtitle mb-2 text-muted">{{ item.restaurantName }}</h6>
                 </div>
-                <div class="col-md-8">
+                <div class="col-md-8 col">
                     <span>{{ item.price | currency}} x {{ item.quantity }}</span>
                     <hr>
                     <span>{{ total | currency }}</span>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4 col">
                     <div class="row cart-item-buttons">
                         <div class="col-md-6">
                             <button @click="increaseQuantity" class="btn btn-success"><font-awesome-icon icon="plus-square"/></button>
@@ -95,5 +95,14 @@
     h6 {
         font-size: 0.8em;
         margin: 0 0 3px 0;
+    }
+
+    @media only screen and (max-width: 450px) {
+        .btn {
+            margin-left: 5px;
+            font-size: 18px;
+            width: 30px;
+            height: 30px;
+        }
     }
 </style>

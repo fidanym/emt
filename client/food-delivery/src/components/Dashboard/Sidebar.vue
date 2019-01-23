@@ -3,10 +3,10 @@
         <h4>Username</h4>
         <hr>
         <div class="row">
-            <div class="col-sm-6">
+            <div class="col-6">
                 <router-link :to="'/profile'" class="btn btn-light"><font-awesome-icon icon="user" /> Profile</router-link>
             </div>
-            <div class="col-sm-6">
+            <div class="col-6">
                 <router-link :to="'/'" class="btn btn-light"><font-awesome-icon icon="running" /> Home</router-link>
             </div>
         </div>

@@ -1,7 +1,7 @@
 <template>
     <div class="shopping-cart">
         <div class="row">
-            <div class="col-md-12">
+            <div class="col">
                 <h5 v-if="(this.total > 0)">Your shopping basket:</h5>
                 <h5 v-if="(this.total == 0)">Your shopping basket is empty</h5>
                 <div class="cart">
