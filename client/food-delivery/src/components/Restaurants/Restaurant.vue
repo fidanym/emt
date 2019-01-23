@@ -32,9 +32,12 @@
         bottom: 0;
         font-size: 2em;
         padding-top: 20%;
-        background: #fff; /* fallback for old browsers */
-        background: -webkit-linear-gradient(to top, #fff 70%, rgba(255, 0, 0, 0)); /* Chrome 10-25, Safari 5.1-6 */
-        background: linear-gradient(to top,  #fff 70%, rgba(255, 0, 0, 0)); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        background: #f7ffe6; /* fallback for old browsers */
+        background: -webkit-linear-gradient(to top, #f7ffe6 70%, rgba(255, 0, 0, 0)); /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to top,  #f7ffe6 70%, rgba(255, 0, 0, 0)); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    }
+    .card:hover {
+        background-color: #f7ffe6;
     }
     .card:hover .menu-link {
         visibility: visible;

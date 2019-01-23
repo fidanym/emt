@@ -60,6 +60,18 @@
 <style scoped>
     .card {
         padding: 0;
+        border-radius: 0;
+    }
+    .card:first-child {
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+    }
+    .card:last-child {
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius: 5px;
+    }
+    .card:hover {
+        background-color: #f7ffe6;
     }
     .btn {
         width: 25px;

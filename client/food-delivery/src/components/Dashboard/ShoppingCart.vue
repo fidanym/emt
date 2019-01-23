@@ -4,7 +4,9 @@
             <div class="col-md-12">
                 <h5 v-if="(this.total > 0)">Your shopping basket:</h5>
                 <h5 v-if="(this.total == 0)">Your shopping basket is empty</h5>
-                <cart-item v-for="(item, index) in items" :item="item" @delete-cart-item="deleteCartItem(index)"></cart-item>
+                <div class="cart">
+                    <cart-item v-for="(item, index) in items" :item="item" @delete-cart-item="deleteCartItem(index)"></cart-item>
+                </div>
                 <h5 v-if="(this.total > 0)" class="m-t-15"><span class="font-weight-bold">Total: </span> {{ this.total | currency }}</h5>
             </div>
         </div>
