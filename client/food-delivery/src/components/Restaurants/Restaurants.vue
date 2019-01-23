@@ -3,8 +3,11 @@
         <h1 class="m-t-15 font-weight-bold">List of restaurants</h1>
         <div class="restaurants-container">
             <div class="card-columns">
-                <restaurant v-for="restaurant in restaurants" :title="restaurant.title" :description="restaurant.description" :cover-image="restaurant.coverImage"></restaurant>
+                <restaurant v-for="restaurant in restaurants" :restaurant="restaurant"></restaurant>
             </div>
+        </div>
+        <div id="restaurants-loading" v-show="restaurantsLoading">
+            <font-awesome-icon icon="spinner" spin/>
         </div>
     </div>
 </template>
@@ -34,7 +37,8 @@
                         spare ribs bacon.` },
                     { title: 'Really Good Restaurant', coverImage: require('@/assets/images/food-5.jpg'), description: `Flank ground round rump, jerky drumstick short
                         Shankle venison leberkas, hamburger capicola swine shank picanha pork loin.` }
-                ]
+                ],
+                restaurantsLoading: false
             }
         }
     }
@@ -50,5 +54,10 @@
 
     .card-deck {
         column-count: 3;
+    }
+
+    #restaurants-loading {
+        font-size: 50px;
+        color: #5dc52f;
     }
 </style>

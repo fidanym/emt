@@ -8,10 +8,10 @@ import Auth from './plugins/Auth'
 import Vue2Filters from 'vue2-filters'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faUser, faRunning, faTimes, faPlusSquare, faMinusSquare, faInfo, faCreditCard } from '@fortawesome/free-solid-svg-icons'
+import { faUser, faRunning, faTimes, faPlusSquare, faMinusSquare, faInfo, faCreditCard, faSpinner } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-library.add(faUser, faRunning, faTimes, faPlusSquare, faMinusSquare, faInfo, faCreditCard);
+library.add(faUser, faRunning, faTimes, faPlusSquare, faMinusSquare, faInfo, faCreditCard, faSpinner);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 Vue.use(Notifications);

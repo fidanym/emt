@@ -1,9 +1,9 @@
 <template>
     <div class="card border-success">
-        <img class="card-img-top" :src="coverImage" alt="placeholder image">
+        <img class="card-img-top" :src="restaurant.coverImage" alt="placeholder image">
         <div class="card-body">
-            <h5 class="card-title font-weight-bold">{{ title }}</h5>
-            <p class="card-text">{{ description }}</p>
+            <h5 class="card-title font-weight-bold">{{ restaurant.title }}</h5>
+            <p class="card-text">{{ restaurant.description }}</p>
         </div>
 
         <div class="menu-link">
@@ -16,9 +16,7 @@
     export default {
         name: "Restaurant",
         props: {
-            title: String,
-            coverImage: String,
-            description: String
+            restaurant: Object
         }
     }
 </script>
