@@ -2,10 +2,15 @@
     <div class="shopping-cart">
         <div class="row">
             <div class="col-md-12">
-                <h5>Your shopping basket:</h5>
-                <cart-item v-for="item in items" :restaurant-name="item.restaurantName" :name="item.name" :price="item.price" :quantity="item.quantity" :total="(parseFloat(item.price) * parseFloat(item.quantity))"></cart-item>
-                <h5 class="m-t-15"><span class="font-weight-bold">Total: </span> ${{ this.total }}</h5>
+                <h5 v-if="(this.total > 0)">Your shopping basket:</h5>
+                <h5 v-if="(this.total == 0)">Your shopping basket is empty</h5>
+                <cart-item v-for="(item, index) in items" :item="item" @delete-cart-item="deleteCartItem(index)"></cart-item>
+                <h5 v-if="(this.total > 0)" class="m-t-15"><span class="font-weight-bold">Total: </span> {{ this.total | currency }}</h5>
             </div>
+        </div>
+
+        <div class="row">
+            <button v-if="(this.total > 0)" id="checkout-button" class="btn btn-primary btn-block"><font-awesome-icon icon="credit-card"></font-awesome-icon><span class="font-weight-bold"> Checkout</span></button>
         </div>
     </div>
 </template>
@@ -21,9 +26,9 @@
         data: function () {
             return {
                 items: [
-                    { restaurantName: 'Good restaurant inc.', name: 'Big Pizza', price: 15.85, quantity: 1, total: 15.85},
-                    { restaurantName: 'Another restaurant', name: 'Cheeseburger', price: 8.95, quantity: 2, total: 17.90},
-                    { restaurantName: 'Luigi', name: 'Tortellini with bacon', price: 12.50, quantity: 1, total: 12.50}
+                    { restaurantName: 'Good restaurant inc.', name: 'Big Pizza', price: 15.85, quantity: 1},
+                    { restaurantName: 'Another restaurant', name: 'Cheeseburger', price: 8.95, quantity: 2},
+                    { restaurantName: 'Luigi', name: 'Tortellini with bacon', price: 12.50, quantity: 1}
                 ]
             }
         },
@@ -35,10 +40,19 @@
                 }
                 return sum;
             }
+        },
+        methods: {
+            deleteCartItem: function (index) {
+                this.items.splice(index, 1);
+            }
         }
     }
 </script>
 
 <style scoped>
-
+    #checkout-button {
+        width: 90%;
+        margin: 0 auto;
+        margin-top: 20px;
+    }
 </style>

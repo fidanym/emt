@@ -15,9 +15,7 @@
             <shopping-cart></shopping-cart>
         </div>
 
-        <div class="row">
-            <button id="checkout-button" class="btn btn-primary btn-block"><font-awesome-icon icon="credit-card"></font-awesome-icon><span class="font-weight-bold"> Checkout</span></button>
-        </div>
+
     </div>
 </template>
 
@@ -41,10 +39,5 @@
     .cart {
         margin: 0 auto;
         margin-top: 10px;
-    }
-    #checkout-button {
-        width: 90%;
-        margin: 0 auto;
-        margin-top: 20px;
     }
 </style>

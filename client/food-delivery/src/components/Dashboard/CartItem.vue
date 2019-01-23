@@ -3,22 +3,22 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-md-12">
-                    <h5 class="card-title">{{ name }}</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">{{ restaurantName }}</h6>
+                    <h5 class="card-title">{{ item.name }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">{{ item.restaurantName }}</h6>
                 </div>
                 <div class="col-md-8">
-                    <span>${{ price }} x {{ quantity }}</span>
+                    <span>{{ item.price | currency}} x {{ item.quantity }}</span>
                     <hr>
-                    <span>${{ total }}</span>
+                    <span>{{ total | currency }}</span>
                 </div>
                 <div class="col-md-4">
                     <div class="row cart-item-buttons">
                         <div class="col-md-6">
-                            <button class="btn btn-success"><font-awesome-icon icon="plus-square"/></button>
-                            <button class="btn btn-primary"><font-awesome-icon icon="minus-square"/></button>
+                            <button @click="increaseQuantity" class="btn btn-success"><font-awesome-icon icon="plus-square"/></button>
+                            <button @click="decreaseQuantity" class="btn btn-primary"><font-awesome-icon icon="minus-square"/></button>
                         </div>
                         <div class="col-md-6">
-                            <button class="btn btn-danger"><font-awesome-icon icon="times"/></button>
+                            <button @click="deleteItem" class="btn btn-danger"><font-awesome-icon icon="times"/></button>
                             <button class="btn btn-info"><font-awesome-icon icon="info"/></button>
                         </div>
                     </div>
@@ -34,11 +34,25 @@
     export default {
         name: "CartItem",
         props: {
-            name: String,
-            restaurantName: String,
-            price: Number,
-            quantity: Number,
-            total: Number
+            item: Object
+        },
+        computed: {
+            total: function () {
+                return parseFloat(this.item.price) * parseFloat(this.item.quantity);
+            }
+        },
+        methods: {
+            increaseQuantity: function () {
+                this.item.quantity++;
+            },
+            decreaseQuantity: function () {
+                this.item.quantity--;
+                if (this.item.quantity == 0)
+                    this.deleteItem();
+            },
+            deleteItem: function () {
+                this.$emit('delete-cart-item');
+            }
         }
     }
 </script>
