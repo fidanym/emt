@@ -1,7 +1,7 @@
 <template>
     <div class="jumbotron jumbotron-fluid">
         <div class="container text-center">
-            <img class="img-fluid m-b-20" alt="logo" src="../assets/logo.png" width="25%">
+            <router-link :to="'/'"><img class="img-fluid m-b-20" alt="logo" src="../assets/logo.png" width="25%"></router-link>
             <p class="lead">The website that lets you order food from anywhere</p>
         </div>
     </div>
