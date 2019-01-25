@@ -44,9 +44,19 @@
             }
         },
         methods: {
+            addItemToCart(item, restaurantName) {
+                item.quantity = 1;
+                item.restaurantName = restaurantName;
+                this.items.push(item);
+            },
             deleteCartItem: function (index) {
                 this.items.splice(index, 1);
             }
+        },
+        mounted: function () {
+            this.$root.$on('addItemToCart', (item, restaurantName) => {
+                this.addItemToCart(item, restaurantName);
+            })
         }
     }
 </script>

@@ -8,8 +8,9 @@ import Register from "./components/Auth/Register";
 import Dashboard from "./views/Dashboard";
 import Profile from "./views/Profile";
 import Restaurants from "./components/Restaurants/Restaurants";
+import RestaurantView from "./views/RestaurantView";
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
   mode: 'history',
@@ -32,6 +33,13 @@ export default new Router({
           path: 'restaurants',
           name: 'restaurants',
           component: Restaurants,
+          meta: { requiresAuth: true }
+        },
+        {
+          path: 'restaurants/:slug',
+          name: 'restaurantsView',
+          component: RestaurantView,
+          props: true,
           meta: { requiresAuth: true }
         }
       ]
