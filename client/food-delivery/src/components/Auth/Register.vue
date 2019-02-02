@@ -1,10 +1,14 @@
 <template>
     <div>
         <h4 class="text-center m-b-20 font-weight-bold">Register</h4>
+        <div class="form-row">
+            <div class="col"><input type="text" class="form-control m-b-15" v-model="user.first_name" placeholder="First Name"></div>
+            <div class="col"><input type="text" class="form-control m-b-15" v-model="user.last_name" placeholder="Last Name"></div>
+        </div>
 
-        <input type="email" class="form-control m-b-15" placeholder="Email address">
-        <input type="text" class="form-control m-b-15" placeholder="Username">
-        <input type="password" class="form-control" placeholder="Password">
+        <input type="email" class="form-control m-b-15" v-model="user.email" placeholder="Email address">
+        <input type="text" class="form-control m-b-15" v-model="user.username" placeholder="Username">
+        <input type="password" class="form-control" v-model="user.password" placeholder="Password">
 
         <hr>
 
@@ -22,6 +26,8 @@
         data: function () {
             return {
                 user: {
+                    first_name: "",
+                    last_name: "",
                     email: "",
                     username: "",
                     password: ""
@@ -30,8 +36,8 @@
         },
         methods: {
             register: function () {
-                this.$http.post("/users", this.user)
-                    .then(function (res) {
+                this.$http.post("/sign-up", this.user)
+                    .then(function () {
                         this.$notify({
                             group: "notifications",
                             type: "success",
