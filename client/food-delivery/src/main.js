@@ -9,10 +9,10 @@ import VueResource from 'vue-resource'
 import Vue2Filters from 'vue2-filters'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faUser, faRunning, faTimes, faPlusSquare, faMinusSquare, faInfo, faCreditCard, faSpinner } from '@fortawesome/free-solid-svg-icons'
+import { faUser, faRunning, faTimes, faPlusSquare, faMinusSquare, faInfo, faCreditCard, faSpinner, faPlusCircle, faPowerOff } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-library.add(faUser, faRunning, faTimes, faPlusSquare, faMinusSquare, faInfo, faCreditCard, faSpinner);
+library.add(faUser, faRunning, faTimes, faPlusSquare, faMinusSquare, faInfo, faCreditCard, faSpinner, faPlusCircle, faPowerOff);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 Vue.use(Notifications);
@@ -29,7 +29,7 @@ Vue.http.interceptors.push(function(request, next) {
 
     let token = Vue.auth.getToken();
     if (token)
-      request.headers.set('Authorization', 'Bearer ' + token);
+      request.headers.set('Authorization', token);
   }
   next(function(response) {
     if (response.status == 403) {

@@ -2,12 +2,12 @@
     <div id="sidebar" class="text-center m-b-20">
         <h4>Username</h4>
         <hr>
-        <div class="row">
+        <div class="form-row">
             <div class="col-6">
                 <router-link :to="'/profile'" class="btn btn-light"><font-awesome-icon icon="user" /> Profile</router-link>
             </div>
             <div class="col-6">
-                <router-link :to="'/'" class="btn btn-light"><font-awesome-icon icon="running" /> Home</router-link>
+                <button @click="logout" class="btn btn-light"><font-awesome-icon icon="power-off" /> Logout</button>
             </div>
         </div>
 
@@ -26,6 +26,12 @@
         name: "Sidebar",
         components: {
             shoppingCart: ShoppingCart
+        },
+        methods: {
+            logout: function () {
+                this.$auth.destroyToken();
+                this.$router.push('/auth/login');
+            }
         }
     }
 </script>

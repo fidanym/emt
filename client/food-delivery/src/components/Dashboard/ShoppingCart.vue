@@ -5,7 +5,7 @@
                 <h5 v-if="(this.total > 0)">Your shopping basket:</h5>
                 <h5 v-if="(this.total == 0)">Your shopping basket is empty</h5>
                 <div class="cart">
-                    <cart-item v-for="(item, index) in items" :item="item" @delete-cart-item="deleteCartItem(index)"></cart-item>
+                    <cart-item v-for="(item, index) in items" :menu-item="item" @delete-cart-item="deleteCartItem(index)"></cart-item>
                 </div>
                 <h5 v-if="(this.total > 0)" class="m-t-15"><span class="font-weight-bold">Total: </span> {{ this.total | currency }}</h5>
             </div>
@@ -27,11 +27,7 @@
         },
         data: function () {
             return {
-                items: [
-                    { restaurantName: 'Good restaurant inc.', name: 'Big Pizza', price: 15.85, quantity: 1},
-                    { restaurantName: 'Another restaurant', name: 'Cheeseburger', price: 8.95, quantity: 2},
-                    { restaurantName: 'Luigi', name: 'Tortellini with bacon', price: 12.50, quantity: 1}
-                ]
+                items: []
             }
         },
         computed: {

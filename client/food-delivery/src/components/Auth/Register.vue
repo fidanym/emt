@@ -36,7 +36,7 @@
         },
         methods: {
             register: function () {
-                this.$http.post("/sign-up", this.user)
+                this.$http.post("/user/sign-up", this.user)
                     .then(function () {
                         this.$notify({
                             group: "notifications",
