@@ -3,7 +3,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-6 offset-md-3 authForm">
-                    <img class="img-fluid m-b-20" alt="logo" src="../assets/logo.png" width="40%">
+                    <img class="img-fluid m-b-20 col-md-6 offset-md-3" alt="logo" src="../assets/logo.png" width="40%">
                     <router-view/>
                 </div>
             </div>

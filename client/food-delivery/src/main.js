@@ -25,20 +25,20 @@ Vue.config.productionTip = false;
 Vue.http.interceptors.push(function(request, next) {
   let self = this;
   if (request.url[0] === '/') {
-    request.url = process.env.API + request.url;
+    request.url = 'http://localhost:9090/api' + request.url;
 
     let token = Vue.auth.getToken();
     if (token)
       request.headers.set('Authorization', 'Bearer ' + token);
   }
   next(function(response) {
-    if (response.status == 422) {
+    if (response.status == 403) {
       response.body.errors.forEach(function (e) {
         self.$notify({
-          group: 'foo',
+          group: 'notifications',
           type: 'error',
           title: 'Error',
-          text: e
+          text: 'Invalid credentials'
         });
       })
     }
