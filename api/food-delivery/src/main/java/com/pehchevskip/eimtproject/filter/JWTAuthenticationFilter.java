@@ -31,16 +31,20 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         try {
             Map<String, String[]> map = request.getParameterMap();
-            User creds = new ObjectMapper()
-                    .readValue(request.getInputStream(), User.class);
-            return authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            creds.getUsername(),
-                            creds.getPassword(),
-                            new ArrayList<>()
-                    )
-            );
-
+            User creds = null;
+            try {
+                creds = new ObjectMapper()
+                        .readValue(request.getInputStream(), User.class);
+                return authenticationManager.authenticate(
+                        new UsernamePasswordAuthenticationToken(
+                                creds.getUsername(),
+                                creds.getPassword(),
+                                new ArrayList<>()
+                        )
+                );
+            } catch (AuthenticationException ae) {
+                unsuccessfulAuthentication(request, response, ae);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -54,6 +58,10 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .withExpiresAt(new Date(System.currentTimeMillis() + SecurityConstants.EXPIRATION_TIME))
                 .sign(Algorithm.HMAC512(SecurityConstants.SECRET.getBytes()));
         response.addHeader(SecurityConstants.HEADER_STRING, SecurityConstants.TOKEN_PREFIX + token);
+
+        response.setContentType("application/json");
+        response.getWriter().print("{ token: " + SecurityConstants.TOKEN_PREFIX + token + " }");
+        response.getWriter().flush();
     }
 
 }
