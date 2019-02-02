@@ -33,7 +33,7 @@
                 this.$http.post("/users", this.user)
                     .then(function (res) {
                         this.$notify({
-                            group: "notification",
+                            group: "notifications",
                             type: "success",
                             title: "Success!",
                             text: "You can now login with your username and password"
