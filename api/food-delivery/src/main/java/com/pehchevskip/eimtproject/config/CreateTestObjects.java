@@ -45,6 +45,7 @@ public class CreateTestObjects implements CommandLineRunner {
         for (String companyName : companiesNames) {
             Company company = new Company();
             company.setName(companyName);
+            company.setDescription("Just a temporary description...");
             Long tmpId = companyService.save(company).getId();
             result.add(tmpId);
         }

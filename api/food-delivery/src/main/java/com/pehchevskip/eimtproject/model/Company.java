@@ -17,4 +17,7 @@ public class Company {
     @Column
     private String name;
 
+    @Column
+    private String description;
+
 }
