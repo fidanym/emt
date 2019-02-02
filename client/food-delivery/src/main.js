@@ -33,14 +33,20 @@ Vue.http.interceptors.push(function(request, next) {
   }
   next(function(response) {
     if (response.status == 403) {
-      response.body.errors.forEach(function (e) {
+      self.$notify({
+        group: 'notifications',
+        type: 'error',
+        title: 'Error',
+        text: 'Invalid credentials'
+      });
+      /*response.body.errors.forEach(function (e) {
         self.$notify({
           group: 'notifications',
           type: 'error',
           title: 'Error',
           text: 'Invalid credentials'
         });
-      })
+      })*/
     }
   });
 });

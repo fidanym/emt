@@ -30,7 +30,7 @@
                 let self = this;
                 this.$http.post("/login", this.user)
                     .then(function (res) {
-                        console.log(res);
+                        console.log(res.headers);
                         self.$notify({
                             group: 'notifications',
                             type: 'success',
