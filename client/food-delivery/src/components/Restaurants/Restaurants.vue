@@ -40,6 +40,12 @@
                 ],
                 restaurantsLoading: false
             }
+        },
+        created: function () {
+            this.$http.get('/company/all')
+                .then(function (res) {
+                    console.log(res);
+                })
         }
     }
 </script>
