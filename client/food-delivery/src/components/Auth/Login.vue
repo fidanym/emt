@@ -30,15 +30,14 @@
                 let self = this;
                 this.$http.post("/login", this.user)
                     .then(function (res) {
-                        console.log(res.headers);
                         self.$notify({
                             group: 'notifications',
                             type: 'success',
                             title: 'Logged in',
                             text: 'Welcome ' + self.user.username
                         });
-                        //this.$auth.setToken(res.headers.get('Authorization'), Date.now() + 4 * 3600 * 1000); // 4 hours in milliseconds
-                        //this.$router.push('/');
+                        this.$auth.setToken(res.headers.get('Authorization'), Date.now() + 4 * 3600 * 1000); // 4 hours in milliseconds
+                        this.$router.push('/');
                     })
             }
         }
