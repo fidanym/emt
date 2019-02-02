@@ -6,6 +6,8 @@ import com.pehchevskip.eimtproject.service.ItemService;
 import com.pehchevskip.eimtproject.service.OrderItemService;
 import com.pehchevskip.eimtproject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,6 +40,14 @@ public class UserController {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setShoppingCart(new ShoppingCart());
         userService.save(user);
+    }
+
+    @GetMapping("/me")
+    public User me() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = auth.getName();
+        Optional<User> user = userService.findByUsername(currentPrincipalName);
+        return user.orElseGet(User::new);
     }
 
     @GetMapping("/delete")

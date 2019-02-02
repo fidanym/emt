@@ -21,6 +21,9 @@ public class AnOrder {
     private LocalDateTime dateTime;
 
     @Column
+    private String address;
+
+    @Column
     private Boolean isPaid = false;
 
     @Column

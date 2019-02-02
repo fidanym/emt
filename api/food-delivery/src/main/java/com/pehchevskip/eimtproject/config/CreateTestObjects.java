@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Component
 public class CreateTestObjects implements CommandLineRunner {
@@ -29,46 +30,57 @@ public class CreateTestObjects implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        Long[] companiesIds = createCompanies("Restoran Kaj Zvonko", "Restoran Mrs");
+        String[] descriptions = {"Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.", "" +
+                "Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.", "" +
+                "A small river named Duden flows by their place and supplies it with the necessary regelialia. ", "" +
+                "It is a paradisematic country, in which roasted parts of sentences fly into your mouth."};
+        String[] addresses = {"Marshal Tito 42, Berovo", "Partizanski Odredi 121, Skopje"};
+        Long[] companiesIds = createCompanies(descriptions, "Restoran Kaj Zvonko", "Restoran Mrs");
         Long fId = companiesIds[0];
         Long sId = companiesIds[1];
 
-        createUsers("pehchevskip", "jovanovskij", "markovskim");
+        createUsers(addresses, "pehchevskip", "jovanovskij", "markovskim");
 
         createItems(new String[]{"Kebab", "Stek", "Pleskavica", "Raznic", "Pizza", "Pastramajlija"},
+                    descriptions,
                     new double[]{ 10, 110, 120, 30, 130, 130 },
                     new Long[]{ fId, fId, fId, sId, sId, sId });
     }
 
-    private Long[] createCompanies(String... companiesNames) {
+    private Long[] createCompanies(String[] descriptions, String... companiesNames) {
         List<Long> result = new ArrayList<>();
+        Random rand = new Random();
         for (String companyName : companiesNames) {
             Company company = new Company();
             company.setName(companyName);
-            company.setDescription("Just a temporary description...");
+            company.setDescription(descriptions[rand.nextInt(descriptions.length)]);
             Long tmpId = companyService.save(company).getId();
             result.add(tmpId);
         }
         return result.toArray(new Long[]{});
     }
 
-    private void createUsers(String... usersNames) {
+    private void createUsers(String[] addresses, String... usersNames) {
+        Random rand = new Random();
         for (String userName : usersNames) {
             String firstName = String.valueOf(userName.charAt(userName.length()-1));
             String lastName = userName.substring(0, userName.length()-1);
             String password = passwordEncoder.encode("password");
-            User user = userService.createUserWithRole(userName, userName + "@fd.com", password, firstName, lastName, Role.SUPER_ADMIN);
+            String address = addresses[rand.nextInt(addresses.length)];
+            User user = userService.createUserWithRole(userName, userName + "@fd.com", password, firstName, lastName, address, Role.SUPER_ADMIN);
             userService.save(user);
         }
     }
 
-    private void createItems(String[] itemsNames, double[] prices, Long[] companiesIds) {
+    private void createItems(String[] itemsNames, String[] descriptions, double[] prices, Long[] companiesIds) {
         if (itemsNames.length != prices.length) {
             throw new IllegalArgumentException();
         }
+        Random rand = new Random();
         for (int i = 0; i < itemsNames.length; ++i) {
             Item item = new Item();
             item.setName(itemsNames[i]);
+            item.setDescription(descriptions[rand.nextInt(descriptions.length)]);
             item.setPrice(prices[i]);
             item.setCompany(companyService.findById(companiesIds[i]).orElse(null));
             itemService.save(item);
