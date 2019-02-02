@@ -35,9 +35,10 @@ public class UserService {
         return userRepository.findByUsername(username);
     }
 
-    public User createUserWithRole(String username, String password, String firstName, String lastName, Role role) {
+    public User createUserWithRole(String username, String email, String password, String firstName, String lastName, Role role) {
         User user = new User();
         user.setUsername(username);
+        user.setEmail(email);
         user.setPassword(password);
         user.setFirstName(firstName);
         user.setLastName(lastName);

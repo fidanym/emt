@@ -21,6 +21,9 @@ public class User {
     @Column(unique = true)
     private String username;
 
+    @Column(unique = true)
+    private String email;
+
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column
     private String password;
@@ -32,7 +35,7 @@ public class User {
     private String lastName;
 
     @Enumerated
-    private Role role;
+    private Role role = Role.CLIENT;
 
     @ManyToOne // only for Company Admins
     private Company company;

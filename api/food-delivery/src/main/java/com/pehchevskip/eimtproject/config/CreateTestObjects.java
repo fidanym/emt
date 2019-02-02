@@ -56,7 +56,7 @@ public class CreateTestObjects implements CommandLineRunner {
             String firstName = String.valueOf(userName.charAt(userName.length()-1));
             String lastName = userName.substring(0, userName.length()-1);
             String password = passwordEncoder.encode("password");
-            User user = userService.createUserWithRole(userName, password, firstName, lastName, Role.SUPER_ADMIN);
+            User user = userService.createUserWithRole(userName, userName + "@fd.com", password, firstName, lastName, Role.SUPER_ADMIN);
             userService.save(user);
         }
     }
