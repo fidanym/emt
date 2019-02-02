@@ -1,14 +1,12 @@
 <template>
     <div class="card border-success">
         <span class="badge badge-secondary price-tag align-middle">{{ item.price | currency }}</span>
-        <img class="card-img-top" :src="item.coverImage" alt="placeholder image">
         <div class="card-body">
-            <h5 class="card-title font-weight-bold">{{ item.title }}</h5>
-            <p class="card-text">{{ item.description }}</p>
+            <h5 class="card-title font-weight-bold m-t-15">{{ item.name }}</h5>
+            <p class="card-text">{{ descriptionForNow }}</p>
         </div>
-
-        <div class="menu-link">
-            <button @click="addToCart" class="btn btn-success btn-lg">Add to order</button>
+        <div class="menu-link text-center">
+            <div @click="addToCart" class="transparent-button "><font-awesome-icon icon="plus-circle"></font-awesome-icon></div>
         </div>
     </div>
 </template>
@@ -19,6 +17,11 @@
         props: {
             item: Object,
             restaurantName: String
+        },
+        data: function () {
+            return {
+                descriptionForNow: "Yummy yummy yummy yummy yummy yummy yummy yummy yummy yummy yummy yummy yummy yummy yummy"
+            }
         },
         methods: {
             addToCart: function () {
@@ -34,21 +37,31 @@
         position: absolute;
         width: 100%;
         height: 40%;
-        bottom: 0;
-        font-size: 2em;
-        padding-top: 20%;
-        background: #f7ffe6; /* fallback for old browsers */
-        background: -webkit-linear-gradient(to top, #f7ffe6 70%, rgba(255, 0, 0, 0)); /* Chrome 10-25, Safari 5.1-6 */
-        background: linear-gradient(to top,  #f7ffe6 70%, rgba(255, 0, 0, 0)); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        bottom: 20%;
+        font-size: 3em;
+    }
+    .transparent-button {
+        color: #28a745;
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+    }
+    .transparent-button:active {
+        color: #248f3d;
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
     }
     .card:hover {
         background-color: #f7ffe6;
+        color: #d6d6d6;
     }
     .card:hover .menu-link {
         visibility: visible;
     }
     .price-tag {
         position: absolute;
+        left: 0;
         top: 0;
         height: 35px;
         width: 60px;

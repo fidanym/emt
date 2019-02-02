@@ -1,13 +1,13 @@
 <template>
     <div class="card border-success">
-        <img class="card-img-top" :src="restaurant.coverImage" alt="placeholder image">
+        <img class="card-img-top" src="/images/food-1.jpg" alt="placeholder image">
         <div class="card-body">
-            <h5 class="card-title font-weight-bold">{{ restaurant.title }}</h5>
+            <h5 class="card-title font-weight-bold">{{ restaurant.name }}</h5>
             <p class="card-text">{{ restaurant.description }}</p>
         </div>
 
         <div class="menu-link">
-            <router-link :to="{name: 'restaurantsView', params: { slug: restaurant.slug, restaurantName: restaurant.title }}" :restaurant-name="restaurant.name" class="btn btn-success btn-lg">View menu</router-link>
+            <router-link :to="{name: 'restaurantsView', params: { id: restaurant.id, restaurantName: restaurant.name }}" :restaurant-name="restaurant.name" class="btn btn-success btn-lg">View menu</router-link>
         </div>
     </div>
 </template>

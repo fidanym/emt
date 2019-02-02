@@ -4,7 +4,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <h5 class="card-title">{{ item.name }}</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">{{ item.restaurantName }}</h6>
+                    <h6 class="card-subtitle mb-2 text-muted">{{ item.company.name }}</h6>
                 </div>
                 <div class="col-md-8 col">
                     <span>{{ item.price | currency}} x {{ item.quantity }}</span>
@@ -34,7 +34,12 @@
     export default {
         name: "CartItem",
         props: {
-            item: Object
+            menuItem: Object
+        },
+        data: function () {
+            return {
+                item: this.menuItem
+            }
         },
         computed: {
             total: function () {
@@ -44,11 +49,13 @@
         methods: {
             increaseQuantity: function () {
                 this.item.quantity++;
+                this.$forceUpdate();
             },
             decreaseQuantity: function () {
                 this.item.quantity--;
                 if (this.item.quantity == 0)
                     this.deleteItem();
+                this.$forceUpdate();
             },
             deleteItem: function () {
                 this.$emit('delete-cart-item');

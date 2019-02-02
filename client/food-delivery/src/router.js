@@ -36,7 +36,7 @@ export default new Router({
           meta: { requiresAuth: true }
         },
         {
-          path: 'restaurants/:slug',
+          path: 'restaurants/:id',
           name: 'restaurantsView',
           component: RestaurantView,
           props: true,
