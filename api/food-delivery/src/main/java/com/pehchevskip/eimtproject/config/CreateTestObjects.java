@@ -24,8 +24,8 @@ public class CreateTestObjects implements CommandLineRunner {
     private UserService userService;
     @Autowired
     private ItemService itemService;
-//    @Autowired
-    private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     @Override
     public void run(String... args) {

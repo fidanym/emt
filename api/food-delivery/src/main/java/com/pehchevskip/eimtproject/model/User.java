@@ -1,6 +1,7 @@
 package com.pehchevskip.eimtproject.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,7 +21,7 @@ public class User {
     @Column(unique = true)
     private String username;
 
-    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column
     private String password;
 

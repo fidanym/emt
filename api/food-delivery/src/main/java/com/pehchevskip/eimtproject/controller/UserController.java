@@ -6,6 +6,7 @@ import com.pehchevskip.eimtproject.service.ItemService;
 import com.pehchevskip.eimtproject.service.OrderItemService;
 import com.pehchevskip.eimtproject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -28,6 +29,9 @@ public class UserController {
 
     @Autowired
     private AnOrderService orderService;
+
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     @PostMapping("/createSuperAdmin")
     public User createSuperAdmin(
@@ -57,6 +61,13 @@ public class UserController {
             @RequestParam String lastName) {
         User user = userService.createUserWithRole(username, password, firstName, lastName, Role.CLIENT);
         return userService.save(user);
+    }
+
+    @PostMapping("/sign-up")
+    public void signUp(@RequestBody User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setShoppingCart(new ShoppingCart());
+        userService.save(user);
     }
 
     @GetMapping("/delete")
