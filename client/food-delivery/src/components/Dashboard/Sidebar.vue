@@ -3,11 +3,11 @@
         <h4>Username</h4>
         <hr>
         <div class="row">
-            <div class="col-sm-6">
-                <button class="btn btn-light"><font-awesome-icon icon="user" /> Profile</button>
+            <div class="col-6">
+                <router-link :to="'/profile'" class="btn btn-light"><font-awesome-icon icon="user" /> Profile</router-link>
             </div>
-            <div class="col-sm-6">
-                <button class="btn btn-light"><font-awesome-icon icon="running" /> Other</button>
+            <div class="col-6">
+                <router-link :to="'/'" class="btn btn-light"><font-awesome-icon icon="running" /> Home</router-link>
             </div>
         </div>
 
@@ -15,9 +15,7 @@
             <shopping-cart></shopping-cart>
         </div>
 
-        <div class="row">
-            <button id="checkout-button" class="btn btn-primary btn-block"><font-awesome-icon icon="credit-card"></font-awesome-icon><span class="font-weight-bold"> Checkout</span></button>
-        </div>
+
     </div>
 </template>
 
@@ -41,10 +39,5 @@
     .cart {
         margin: 0 auto;
         margin-top: 10px;
-    }
-    #checkout-button {
-        width: 90%;
-        margin: 0 auto;
-        margin-top: 20px;
     }
 </style>

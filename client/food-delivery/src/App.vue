@@ -1,13 +1,13 @@
 <template>
   <div id="app">
-    <router-view/>
+    <transition name="fade" mode="out-in">
+      <router-view/>
+    </transition>
+    <notifications group="notifications"/>
   </div>
 </template>
 
 <script>
-  import Header from "./components/Header";
-  import BottomNav from "./components/Dashboard/BottomNav";
-
   export default {
     name: "App"
   }

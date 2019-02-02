@@ -6,7 +6,7 @@
         <input type="password" class="form-control" placeholder="Password">
         <hr>
 
-        <button class="btn btn-lg btn-primary btn-block m-b-15">Sign in</button>
+        <button @click="login" class="btn btn-lg btn-primary btn-block m-b-15">Sign in</button>
 
         <p class="text-center">
             Don't have an account? <router-link to="/auth/register">Sign up!</router-link>
@@ -16,7 +16,20 @@
 
 <script>
     export default {
-        name: "Login"
+        name: "Login",
+        data: function () {
+            return {
+                user: {
+                    username: "",
+                    password: ""
+                }
+            }
+        },
+        methods: {
+            login: function () {
+                this.$router.push('/')
+            }
+        }
     }
 </script>
 

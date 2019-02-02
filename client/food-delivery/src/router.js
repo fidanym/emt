@@ -6,8 +6,11 @@ import Auth from "./views/Auth";
 import Login from "./components/Auth/Login";
 import Register from "./components/Auth/Register";
 import Dashboard from "./views/Dashboard";
+import Profile from "./views/Profile";
+import Restaurants from "./components/Restaurants/Restaurants";
+import RestaurantView from "./views/RestaurantView";
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
   mode: 'history',
@@ -16,7 +19,30 @@ export default new Router({
     {
       path: '/',
       name: 'dashboard',
-      component: Dashboard
+      component: Dashboard,
+      redirect: '/restaurants',
+      meta: { requiresAuth: true },
+      children: [
+        {
+          path: 'profile',
+          name: 'profile',
+          component: Profile,
+          meta: { requiresAuth: true }
+        },
+        {
+          path: 'restaurants',
+          name: 'restaurants',
+          component: Restaurants,
+          meta: { requiresAuth: true }
+        },
+        {
+          path: 'restaurants/:slug',
+          name: 'restaurantsView',
+          component: RestaurantView,
+          props: true,
+          meta: { requiresAuth: true }
+        }
+      ]
     },
     {
       path: '/auth',
@@ -27,12 +53,14 @@ export default new Router({
         {
           path: 'login',
           name: 'login',
-          component: Login
+          component: Login,
+          meta: { requiresGuest: true }
         },
         {
           path: 'register',
           name: 'register',
-          component: Register
+          component: Register,
+          meta: { requiresGuest: true }
         }
       ]
     }
