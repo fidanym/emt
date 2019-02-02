@@ -33,36 +33,6 @@ public class UserController {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
-    @PostMapping("/createSuperAdmin")
-    public User createSuperAdmin(
-            @RequestParam String username,
-            @RequestParam String password,
-            @RequestParam String firstName,
-            @RequestParam String lastName) {
-        User user = userService.createUserWithRole(username, password, firstName, lastName, Role.SUPER_ADMIN);
-        return userService.save(user);
-    }
-
-    @PostMapping("/createAdmin")
-    public User createAdmin(
-            @RequestParam String username,
-            @RequestParam String password,
-            @RequestParam String firstName,
-            @RequestParam String lastName) {
-        User user = userService.createUserWithRole(username, password, firstName, lastName, Role.ADMIN);
-        return userService.save(user);
-    }
-
-    @PostMapping("/createClient")
-    public User createClient(
-            @RequestParam String username,
-            @RequestParam String password,
-            @RequestParam String firstName,
-            @RequestParam String lastName) {
-        User user = userService.createUserWithRole(username, password, firstName, lastName, Role.CLIENT);
-        return userService.save(user);
-    }
-
     @PostMapping("/sign-up")
     public void signUp(@RequestBody User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
