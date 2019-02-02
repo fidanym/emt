@@ -2,8 +2,8 @@
     <div>
         <h4 class="text-center m-b-20 font-weight-bold">Register</h4>
         <div class="form-row">
-            <div class="col"><input type="text" class="form-control m-b-15" v-model="user.first_name" placeholder="First Name"></div>
-            <div class="col"><input type="text" class="form-control m-b-15" v-model="user.last_name" placeholder="Last Name"></div>
+            <div class="col"><input type="text" class="form-control m-b-15" v-model="user.firstName" placeholder="First Name"></div>
+            <div class="col"><input type="text" class="form-control m-b-15" v-model="user.lastName" placeholder="Last Name"></div>
         </div>
 
         <input type="email" class="form-control m-b-15" v-model="user.email" placeholder="Email address">
@@ -26,8 +26,8 @@
         data: function () {
             return {
                 user: {
-                    first_name: "",
-                    last_name: "",
+                    firstName: "",
+                    lastName: "",
                     email: "",
                     username: "",
                     password: ""
