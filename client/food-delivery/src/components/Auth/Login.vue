@@ -27,7 +27,11 @@
         },
         methods: {
             login: function () {
-                this.$router.push('/')
+                this.$http.post("/auth", this.user)
+                    .then(function (res) {
+                        this.$auth.setToken(res.headers.authorization, Date.now() + 4 * 3600 * 1000); // 4 hours in milliseconds
+                        this.$router.push('/');
+                    })
             }
         }
     }

@@ -8,7 +8,7 @@
 
         <hr>
 
-        <button class="btn btn-lg btn-primary btn-block m-b-15">Register</button>
+        <button @click="register" class="btn btn-lg btn-primary btn-block m-b-15">Register</button>
 
         <p class="text-center">
             Already have an account? <router-link to="/auth/login">Sign in!</router-link>
@@ -18,7 +18,30 @@
 
 <script>
     export default {
-        name: "Register"
+        name: "Register",
+        data: function () {
+            return {
+                user: {
+                    email: "",
+                    username: "",
+                    password: ""
+                }
+            }
+        },
+        methods: {
+            register: function () {
+                this.$http.post("/users", this.user)
+                    .then(function (res) {
+                        this.$notify({
+                            group: "notification",
+                            type: "success",
+                            title: "Success!",
+                            text: "You can now login with your username and password"
+                        });
+                        this.$router.push('/auth/login');
+                    })
+            }
+        }
     }
 </script>
 

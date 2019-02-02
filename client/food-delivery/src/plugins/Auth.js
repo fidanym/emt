@@ -26,8 +26,7 @@ let AuthPlugin = {
     },
 
     loggedIn: function () {
-        return true; // APIIIII
-        //return !!this.getToken();
+        return !!this.getToken();
     }
 };
 
