@@ -19,6 +19,7 @@
     "vue-resource": "^1.5.1",
     "vue-router": "^3.0.1",
     "vue2-filters": "^0.4.1",
+    "vuelidate": "^0.7.4",
     "vuex": "^3.0.1"
   },
   "devDependencies": {
