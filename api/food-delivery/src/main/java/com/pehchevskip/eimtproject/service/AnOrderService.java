@@ -24,24 +24,25 @@ public class AnOrderService {
         return anOrderRepository.save(order);
     }
 
-    public void pay(Long orderId) {
-        changeOrderStatus(orderId, OrderStatus.IN_PROGRESS);
+    public boolean pay(Long orderId) {
+        return changeOrderStatus(orderId, OrderStatus.IN_PROGRESS);
     }
 
-    public void delivering(Long orderId) {
-        changeOrderStatus(orderId, OrderStatus.DELIVERING);
+    public boolean delivering(Long orderId) {
+        return changeOrderStatus(orderId, OrderStatus.DELIVERING);
     }
 
-    public void deliver(Long orderId) {
-        changeOrderStatus(orderId, OrderStatus.DELIVERED);
+    public boolean deliver(Long orderId) {
+        return changeOrderStatus(orderId, OrderStatus.DELIVERED);
     }
 
-    private void changeOrderStatus(Long orderId, OrderStatus status) {
+    private boolean changeOrderStatus(Long orderId, OrderStatus status) {
         Optional<AnOrder> order = anOrderRepository.findById(orderId);
         if (!order.isPresent()) {
-            return;
+            return false;
         }
         order.get().setStatus(status);
         anOrderRepository.save(order.get());
+        return true;
     }
 }
