@@ -16,9 +16,6 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private ShoppingCartService shoppingCartService;
-
     public User save(User user) {
         return userRepository.save(user);
     }

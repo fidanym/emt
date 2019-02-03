@@ -6,6 +6,8 @@ import com.pehchevskip.eimtproject.service.ItemService;
 import com.pehchevskip.eimtproject.service.OrderItemService;
 import com.pehchevskip.eimtproject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -43,11 +45,14 @@ public class UserController {
     }
 
     @GetMapping("/me")
-    public User me() {
+    public ResponseEntity<User> me() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = auth.getName();
         Optional<User> user = userService.findByUsername(currentPrincipalName);
-        return user.orElseGet(User::new);
+        if (!user.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(user.get(), HttpStatus.OK);
     }
 
     @GetMapping("/delete")
@@ -103,14 +108,18 @@ public class UserController {
         return user.get().getShoppingCart();
     }
 
-    @GetMapping("/checkout")
-    public AnOrder checkout(@RequestParam String username) {
+    @GetMapping("/makeOrder")
+    public ResponseEntity<AnOrder> checkout(@RequestParam String username) {
         Optional<User> user = userService.findByUsername(username);
         if (!user.isPresent()) {
-            return new AnOrder();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         ShoppingCart shoppingCart = user.get().getShoppingCart();
         List<OrderItem> orderItems = shoppingCart.getOrderItems();
+
+        if (orderItems.size() == 0) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
 
         AnOrder order = new AnOrder();
         order.setDateTime(LocalDateTime.now());
@@ -119,10 +128,11 @@ public class UserController {
                 .mapToDouble(oi -> oi.getQuantity() * oi.getItem().getPrice())
                 .sum());
         order.setUser(user.get());
+        order.setAddress(user.get().getAddress());
 
         shoppingCart.getOrderItems().clear();
         userService.save(user.get());
-        return orderService.checkout(order);
+        return new ResponseEntity<>(orderService.makeOrder(order), HttpStatus.OK);
     }
 
 }

@@ -1,5 +1,6 @@
 package com.pehchevskip.eimtproject.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,15 +25,16 @@ public class AnOrder {
     private String address;
 
     @Column
-    private Boolean isPaid = false;
-
-    @Column
     private Double total;
+
+    @Enumerated
+    private OrderStatus status = OrderStatus.NOT_PAYED;
 
     @OneToMany
     private List<OrderItem> orderItems = new ArrayList<>();
 
     @ManyToOne
+    @JsonIgnore
     private User user;
 
 }
