@@ -18,6 +18,9 @@ public class Item {
     private String name;
 
     @Column
+    private String description;
+
+    @Column
     private Double price;
 
     @ManyToOne
