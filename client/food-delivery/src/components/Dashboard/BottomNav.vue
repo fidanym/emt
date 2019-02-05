@@ -1,14 +1,38 @@
 <template>
-    <nav class="navbar fixed-bottom navbar-expand-sm navbar-dark bg-dark">
-        <div class="progress">
-            <div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+    <div class="footer">
+        <nav class="navbar fixed-bottom navbar-expand-sm navbar-dark bg-dark">
+            <div class="container">
+                <div class="btn-group dropup">
+                    <button @click="toggle = !toggle" type="button" class="btn btn-secondary">
+                        Order
+                    </button>
+                </div>
+            </div>
+        </nav>
+        <div>
+            <div v-show="toggle" class="container">
+                <div class="cart-container">
+                    <shopping-cart></shopping-cart>
+                </div>
+            </div>
         </div>
-    </nav>
+    </div>
+
 </template>
 
 <script>
+    import ShoppingCart from "./ShoppingCart";
+
     export default {
-        name: "BottomNav"
+        name: "BottomNav",
+        components: {
+            shoppingCart: ShoppingCart
+        },
+        data: function () {
+            return {
+                toggle: false
+            }
+        }
     }
 </script>
 
@@ -18,7 +42,15 @@
         color: white;
         font-size: 1.3em;
     }
-    .navbar li{
-        margin-left: 10px;
+    .cart-container {
+        padding: 15px 10px 15px 10px;
+        background-color: #FFFFFF;
+        position: absolute;
+        bottom: 40px;
+        width: 350px;
+        height: 530px;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        box-shadow: 1px 10px 8px #888888;
     }
 </style>

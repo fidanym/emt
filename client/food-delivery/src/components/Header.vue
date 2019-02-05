@@ -17,5 +17,6 @@
     .jumbotron {
         background-color: #fff;
         padding: 20px 0 30px 0;
+        margin-bottom: 0;
     }
 </style>

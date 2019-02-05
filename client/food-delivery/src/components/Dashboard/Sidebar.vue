@@ -10,12 +10,9 @@
                 <button @click="logout" class="btn btn-light"><font-awesome-icon icon="power-off" /> Logout</button>
             </div>
         </div>
-
         <div class="row cart">
             <shopping-cart></shopping-cart>
         </div>
-
-
     </div>
 </template>
 

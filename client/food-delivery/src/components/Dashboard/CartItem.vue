@@ -3,27 +3,16 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-md-12">
-                    <h5 class="card-title">{{ item.name }}</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">{{ item.company.name }}</h6>
+                    <h5 class="card-title">{{ item.name }} <small class="text-muted">{{ item.company.name }}</small></h5>
                 </div>
-                <div class="col-md-8 col">
-                    <span>{{ item.price | currency}} x {{ item.quantity }}</span>
-                    <hr>
-                    <span>{{ total | currency }}</span>
+                <div class="col-md-12 col">
+                    <span>{{ item.price | currency}} x {{ item.quantity }} : <em>{{ total | currency }}</em></span>
                 </div>
-                <div class="col-md-4 col">
-                    <div class="row cart-item-buttons">
-                        <div class="col-md-6">
-                            <button @click="increaseQuantity" class="btn btn-success"><font-awesome-icon icon="plus-square"/></button>
-                            <button @click="decreaseQuantity" class="btn btn-primary"><font-awesome-icon icon="minus-square"/></button>
-                        </div>
-                        <div class="col-md-6">
-                            <button @click="deleteItem" class="btn btn-danger"><font-awesome-icon icon="times"/></button>
-                            <button class="btn btn-info"><font-awesome-icon icon="info"/></button>
-                        </div>
-                    </div>
-
-
+                <div class="cart-item-buttons">
+                    <button @click="increaseQuantity" class="btn btn-success"><font-awesome-icon icon="plus-square"/></button>
+                    <button @click="decreaseQuantity" class="btn btn-primary"><font-awesome-icon icon="minus-square"/></button>
+                    <button @click="deleteItem" class="btn btn-danger"><font-awesome-icon icon="times"/></button>
+                    <button class="btn btn-info"><font-awesome-icon icon="info"/></button>
                 </div>
             </div>
         </div>
@@ -86,11 +75,12 @@
         line-height: 0;
         display: inline-block;
         padding: 0;
-        margin: 0 0 3px 0;
+        margin: 0 1px 0 0;
     }
-    .cart-item-buttons > div{
-        margin: 0;
-        padding: 0;
+    .cart-item-buttons{
+        position: absolute;
+        top: 5px;
+        right: 5px;
     }
     hr {
         margin: 0;

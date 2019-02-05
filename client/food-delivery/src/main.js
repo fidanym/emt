@@ -10,10 +10,10 @@ import Vue2Filters from 'vue2-filters'
 import Vuelidate from 'vuelidate'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faUser, faRunning, faTimes, faPlusSquare, faMinusSquare, faInfo, faCreditCard, faSpinner, faPlusCircle, faPowerOff } from '@fortawesome/free-solid-svg-icons'
+import { faUser, faRunning, faTimes, faPlusSquare, faMinusSquare, faInfo, faCreditCard, faSpinner, faPlusCircle, faPowerOff, faUtensils } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-library.add(faUser, faRunning, faTimes, faPlusSquare, faMinusSquare, faInfo, faCreditCard, faSpinner, faPlusCircle, faPowerOff);
+library.add(faUser, faRunning, faTimes, faPlusSquare, faMinusSquare, faInfo, faCreditCard, faSpinner, faPlusCircle, faPowerOff, faUtensils);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 Vue.use(Notifications);

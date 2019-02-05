@@ -7,7 +7,7 @@
         </div>
 
         <div class="menu-link">
-            <router-link :to="{name: 'restaurantsView', params: { id: 'restaurant.id', restaurantName: restaurant.name }}" :restaurant-name="restaurant.name" class="btn btn-success btn-lg">View menu</router-link>
+            <router-link :to="{name: 'restaurantsView', params: { id: restaurant.id, restaurantName: restaurant.name }}" :restaurant-name="restaurant.name" class="btn btn-success btn-lg">View menu</router-link>
         </div>
     </div>
 </template>

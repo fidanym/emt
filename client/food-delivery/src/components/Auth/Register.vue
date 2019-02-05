@@ -111,4 +111,9 @@
         font-size: 0.75em;
         color: #ff5654;
     }
+
+    .form-control:focus {
+        border-color: #43b00e;
+        box-shadow: none;
+    }
 </style>

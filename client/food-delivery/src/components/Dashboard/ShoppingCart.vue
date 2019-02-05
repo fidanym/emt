@@ -63,4 +63,11 @@
         margin: 0 auto;
         margin-top: 20px;
     }
+    .cart {
+        height: 350px;
+        overflow-y: scroll;
+    }
+    .cart::-webkit-scrollbar {
+        display: none;
+    }
 </style>
