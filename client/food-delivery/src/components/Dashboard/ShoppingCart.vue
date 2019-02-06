@@ -34,7 +34,6 @@
                 for (let i = 0; i < this.cart.length; i++) {
                     sum += parseFloat(this.cart[i].price);
                 }
-                console.log(sum);
                 return sum;
             }
         }

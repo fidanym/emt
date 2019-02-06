@@ -36,9 +36,5 @@ export default new Vuex.Store({
     removeFromCart(context, index) {
       context.commit('removeFromCart', index)
     }
-  },
-  getters: {
-    currentUser: state => state.currentUser,
-    shoppingCart: state => state.shoppingCart
   }
 })

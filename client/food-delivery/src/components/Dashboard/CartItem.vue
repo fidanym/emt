@@ -31,7 +31,6 @@
         },
         methods: {
             deleteItem: function () {
-                console.log(this.index);
                 this.$store.dispatch('removeFromCart', this.index);
             }
         },

@@ -1,10 +1,10 @@
 <template>
-    <div class="footer">
+    <div class="footer" v-on-clickaway="away">
         <nav class="navbar fixed-bottom navbar-expand-sm navbar-dark bg-dark">
             <div class="container">
                 <div class="btn-group dropup">
                     <button @click="toggle = !toggle" type="button" class="btn btn-outline-light">
-                        <font-awesome-icon icon="shopping-basket"/> Order
+                        <font-awesome-icon icon="shopping-basket"/> Order ({{ totalItems }})
                     </button>
                 </div>
             </div>
@@ -22,6 +22,7 @@
 
 <script>
     import ShoppingCart from "./ShoppingCart";
+    import { directive as onClickaway } from 'vue-clickaway';
 
     export default {
         name: "BottomNav",
@@ -32,6 +33,19 @@
             return {
                 toggle: false
             }
+        },
+        computed: {
+          totalItems: function () {
+              return this.$store.state.shoppingCart.length;
+          }
+        },
+        methods: {
+            away: function() {
+                this.toggle = false;
+            }
+        },
+        directives: {
+            onClickaway: onClickaway
         }
     }
 </script>
