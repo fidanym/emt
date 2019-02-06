@@ -6,13 +6,11 @@
                     <h5 class="card-title">{{ item.name }} <small class="text-muted">{{ item.company.name }}</small></h5>
                 </div>
                 <div class="col-md-12 col">
-                    <span>{{ item.price | currency}} x {{ item.quantity }} : <em>{{ total | currency }}</em></span>
+                    <span>{{ item.price | currency}}</span>
                 </div>
                 <div class="cart-item-buttons">
-                    <button @click="increaseQuantity" class="btn btn-success"><font-awesome-icon icon="plus-square"/></button>
-                    <button @click="decreaseQuantity" class="btn btn-primary"><font-awesome-icon icon="minus-square"/></button>
                     <button @click="deleteItem" class="btn btn-danger"><font-awesome-icon icon="times"/></button>
-                    <button class="btn btn-info"><font-awesome-icon icon="info"/></button>
+                    <button class="btn btn-info" data-toggle="popover" data-trigger="focus" :data-title="item.name" :data-content="item.description"><font-awesome-icon icon="info"/></button>
                 </div>
             </div>
         </div>
@@ -23,32 +21,27 @@
     export default {
         name: "CartItem",
         props: {
-            menuItem: Object
+            menuItem: Object,
+            index: Number
         },
         data: function () {
             return {
                 item: this.menuItem
             }
         },
-        computed: {
-            total: function () {
-                return parseFloat(this.item.price) * parseFloat(this.item.quantity);
+        methods: {
+            deleteItem: function () {
+                console.log(this.index);
+                this.$store.dispatch('removeFromCart', this.index);
             }
         },
-        methods: {
-            increaseQuantity: function () {
-                this.item.quantity++;
-                this.$forceUpdate();
-            },
-            decreaseQuantity: function () {
-                this.item.quantity--;
-                if (this.item.quantity == 0)
-                    this.deleteItem();
-                this.$forceUpdate();
-            },
-            deleteItem: function () {
-                this.$emit('delete-cart-item');
-            }
+        created: function () {
+            $(function () {
+                $('[data-toggle="popover"]').popover({
+                    container: 'body',
+                    placement: 'bottom'
+                });
+            })
         }
     }
 </script>

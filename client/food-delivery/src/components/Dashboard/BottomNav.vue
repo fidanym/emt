@@ -3,8 +3,8 @@
         <nav class="navbar fixed-bottom navbar-expand-sm navbar-dark bg-dark">
             <div class="container">
                 <div class="btn-group dropup">
-                    <button @click="toggle = !toggle" type="button" class="btn btn-secondary">
-                        Order
+                    <button @click="toggle = !toggle" type="button" class="btn btn-outline-light">
+                        <font-awesome-icon icon="shopping-basket"/> Order
                     </button>
                 </div>
             </div>

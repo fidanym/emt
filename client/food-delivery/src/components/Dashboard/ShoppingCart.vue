@@ -5,7 +5,7 @@
                 <h5 v-if="(this.total > 0)">Your shopping basket:</h5>
                 <h5 v-if="(this.total == 0)">Your shopping basket is empty</h5>
                 <div class="cart">
-                    <cart-item v-for="(item, index) in items" :menu-item="item" @delete-cart-item="deleteCartItem(index)"></cart-item>
+                    <cart-item v-for="(item, index) in cart" :menu-item="item" :index="index" :key="`${index}-${item.id}`"></cart-item>
                 </div>
                 <h5 v-if="(this.total > 0)" class="m-t-15"><span class="font-weight-bold">Total: </span> {{ this.total | currency }}</h5>
             </div>
@@ -25,34 +25,18 @@
         components: {
             cartItem: CartItem
         },
-        data: function () {
-            return {
-                items: []
-            }
-        },
         computed: {
+            cart: function () {
+                return this.$store.state.shoppingCart;
+            },
             total: function () {
                 let sum = 0;
-                for (let i = 0; i < this.items.length; i++) {
-                    sum += parseFloat(this.items[i].price) * parseFloat(this.items[i].quantity);
+                for (let i = 0; i < this.cart.length; i++) {
+                    sum += parseFloat(this.cart[i].price);
                 }
+                console.log(sum);
                 return sum;
             }
-        },
-        methods: {
-            addItemToCart(item, restaurantName) {
-                item.quantity = 1;
-                item.restaurantName = restaurantName;
-                this.items.push(item);
-            },
-            deleteCartItem: function (index) {
-                this.items.splice(index, 1);
-            }
-        },
-        mounted: function () {
-            this.$root.$on('addItemToCart', (item, restaurantName) => {
-                this.addItemToCart(item, restaurantName);
-            })
         }
     }
 </script>

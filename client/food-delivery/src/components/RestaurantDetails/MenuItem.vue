@@ -25,7 +25,7 @@
         },
         methods: {
             addToCart: function () {
-                this.$root.$emit('addItemToCart', this.item, this.restaurantName);
+                this.$store.dispatch('addToCart', this.item);
             }
         }
     }
