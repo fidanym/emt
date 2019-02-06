@@ -12,7 +12,7 @@
         </div>
 
         <div class="row">
-            <button v-if="(this.total > 0)" id="checkout-button" class="btn btn-primary btn-block"><font-awesome-icon icon="credit-card"></font-awesome-icon><span class="font-weight-bold"> Checkout</span></button>
+            <button v-if="(this.total > 0)" @click="checkout" id="checkout-button" class="btn btn-primary btn-block"><font-awesome-icon icon="credit-card"></font-awesome-icon><span class="font-weight-bold"> Checkout</span></button>
         </div>
     </div>
 </template>
@@ -35,6 +35,11 @@
                     sum += parseFloat(this.cart[i].price);
                 }
                 return sum;
+            }
+        },
+        methods: {
+            checkout: function () {
+                alert("You're on a diet!")
             }
         }
     }
