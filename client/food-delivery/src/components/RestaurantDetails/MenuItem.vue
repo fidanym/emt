@@ -3,7 +3,7 @@
         <span class="badge badge-secondary price-tag align-middle">{{ item.price | currency }}</span>
         <div class="card-body">
             <h5 class="card-title font-weight-bold m-t-15">{{ item.name }}</h5>
-            <p class="card-text">{{ descriptionForNow }}</p>
+            <p class="card-text">{{ item.description }}</p>
         </div>
         <div class="menu-link text-center">
             <div @click="addToCart" class="transparent-button "><font-awesome-icon icon="plus-circle"></font-awesome-icon></div>
@@ -17,11 +17,6 @@
         props: {
             item: Object,
             restaurantName: String
-        },
-        data: function () {
-            return {
-                descriptionForNow: "Yummy yummy yummy yummy yummy yummy yummy yummy yummy yummy yummy yummy yummy yummy yummy"
-            }
         },
         methods: {
             addToCart: function () {

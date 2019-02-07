@@ -55,16 +55,18 @@
         background-color: #1a7a15;
         color: white;
         font-size: 1.3em;
+        z-index: 10001;
     }
     .cart-container {
         padding: 15px 10px 15px 10px;
         background-color: #FFFFFF;
-        position: absolute;
+        position: fixed;
         bottom: 40px;
         width: 350px;
         height: 530px;
         border-top-left-radius: 10px;
         border-top-right-radius: 10px;
         box-shadow: 1px 10px 8px #888888;
+        z-index: 10000;
     }
 </style>
