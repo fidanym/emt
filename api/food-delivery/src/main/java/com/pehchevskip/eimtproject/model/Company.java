@@ -1,5 +1,6 @@
 package com.pehchevskip.eimtproject.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,5 +20,9 @@ public class Company {
 
     @Column
     private String description;
+
+    @Lob
+    @JsonIgnore
+    private byte[] image;
 
 }

@@ -35,16 +35,17 @@ public class CreateTestObjects implements CommandLineRunner {
                 "A small river named Duden flows by their place and supplies it with the necessary regelialia. ", "" +
                 "It is a paradisematic country, in which roasted parts of sentences fly into your mouth."};
         String[] addresses = {"Marshal Tito 42, Berovo", "Partizanski Odredi 121, Skopje"};
-        Long[] companiesIds = createCompanies(descriptions, "Restoran Kaj Zvonko", "Restoran Mrs");
+        Long[] companiesIds = createCompanies(descriptions, "Restoran Bolero", "Restoran Mrs", "Restoran Dionis");
         Long fId = companiesIds[0];
         Long sId = companiesIds[1];
+        Long tId = companiesIds[2];
 
         createUsers(addresses, "pehchevskip", "jovanovskij", "markovskim");
 
-        createItems(new String[]{"Kebab", "Stek", "Pleskavica", "Raznic", "Pizza", "Pastramajlija"},
+        createItems(new String[]{"Kebab", "Stek", "Pleskavica", "Raznic", "Pizza", "Pastramajlija", "Pasta Quattro Formaggi", "Pasta Carbonara"},
                     descriptions,
-                    new double[]{ 10, 110, 120, 30, 130, 130 },
-                    new Long[]{ fId, fId, fId, sId, sId, sId });
+                    new double[]{ 10, 110, 120, 30, 130, 130, 150, 140 },
+                    new Long[]{ fId, fId, fId, sId, sId, sId, tId, tId });
     }
 
     private Long[] createCompanies(String[] descriptions, String... companiesNames) {
@@ -63,8 +64,8 @@ public class CreateTestObjects implements CommandLineRunner {
     private void createUsers(String[] addresses, String... usersNames) {
         Random rand = new Random();
         for (String userName : usersNames) {
-            String firstName = String.valueOf(userName.charAt(userName.length()-1));
-            String lastName = userName.substring(0, userName.length()-1);
+            String firstName = capitalize(String.valueOf(userName.charAt(userName.length()-1)));
+            String lastName = capitalize(userName.substring(0, userName.length()-1));
             String password = passwordEncoder.encode("password");
             String address = addresses[rand.nextInt(addresses.length)];
             User user = userService.createUserWithRole(userName, userName + "@fd.com", password, firstName, lastName, address, Role.SUPER_ADMIN);
@@ -85,6 +86,12 @@ public class CreateTestObjects implements CommandLineRunner {
             item.setCompany(companyService.findById(companiesIds[i]).orElse(null));
             itemService.save(item);
         }
+    }
+
+    private String capitalize(String string) {
+        return (string != null && string.length() > 0)
+                ? string.substring(0, 1).toUpperCase() + string.substring(1)
+                : string;
     }
 
 }
