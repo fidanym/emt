@@ -4,7 +4,7 @@
             <div class="container">
                 <div class="btn-group dropup">
                     <button @click="toggle = !toggle" type="button" class="btn btn-outline-light">
-                        <font-awesome-icon icon="shopping-basket"/> Order ({{ totalItems }})
+                        <font-awesome-icon icon="shopping-basket"/> Order
                     </button>
                 </div>
             </div>
@@ -34,15 +34,16 @@
                 toggle: false
             }
         },
-        computed: {
-          totalItems: function () {
-              return this.$store.state.shoppingCart.length;
-          }
-        },
         methods: {
             away: function() {
                 this.toggle = false;
             }
+        },
+        mounted: function () {
+            this.$http.get('/user/shoppingCart', {params: {'username':"fidanym"}})
+                .then(function (res) {
+                    this.$store.commit('setShoppingCart', res.body);
+                })
         },
         directives: {
             onClickaway: onClickaway

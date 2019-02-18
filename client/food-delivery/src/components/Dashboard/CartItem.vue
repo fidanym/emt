@@ -26,12 +26,13 @@
         },
         data: function () {
             return {
-                item: this.menuItem
+                item: this.menuItem.item
             }
         },
         methods: {
             deleteItem: function () {
-                this.$store.dispatch('removeFromCart', this.index);
+                //this.$store.dispatch('removeFromCart', this.index);
+                console.log("Can't delete yet sinek");
             }
         },
         created: function () {
