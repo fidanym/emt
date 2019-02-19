@@ -5,6 +5,7 @@ import com.pehchevskip.eimtproject.model.ShoppingCart;
 import com.pehchevskip.eimtproject.model.User;
 import com.pehchevskip.eimtproject.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,6 +31,10 @@ public class UserService {
 
     public Optional<User> findByUsername(String username) {
         return userRepository.findByUsername(username);
+    }
+
+    public Optional<User> findUserByAuth(Authentication auth) {
+        return findByUsername(auth.getName());
     }
 
     public User createUserWithRole(String username, String email, String password, String firstName, String lastName, String address, Role role) {
