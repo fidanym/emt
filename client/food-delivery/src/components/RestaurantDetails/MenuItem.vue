@@ -20,7 +20,10 @@
         },
         methods: {
             addToCart: function () {
-                this.$store.dispatch('addToCart', this.item);
+                this.$http.get('/cart/add-item', {params: {'username':"fidanym", itemId: this.item.id, quantity: 1}})
+                    .then(function (res) {
+                        this.$store.commit('setShoppingCart', res.body);
+                    })
             }
         }
     }

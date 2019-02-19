@@ -41,6 +41,8 @@
                 alert("You're on a diet!")
             },
             getCartSize: function () {
+                if (typeof this.cart.orderItems == 'undefined')
+                    return 0;
                 return this.cart.orderItems.length;
             }
         },
