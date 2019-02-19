@@ -46,9 +46,7 @@ public class UserController {
 
     @GetMapping("/me")
     public ResponseEntity<User> me() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String currentPrincipalName = auth.getName();
-        Optional<User> user = userService.findByUsername(currentPrincipalName);
+        Optional<User> user = userService.findUserByAuth(SecurityContextHolder.getContext().getAuthentication());
         if (!user.isPresent()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -63,39 +61,6 @@ public class UserController {
     @GetMapping("/all")
     public List<User> getAllUsers() {
         return userService.findAll();
-    }
-
-    @PostMapping("/addItemToCart")
-    public ShoppingCart addItemToCart(
-            @RequestParam String username,
-            @RequestParam Long itemId,
-            @RequestParam int quantity) {
-        Optional<User> user = userService.findByUsername(username);
-        Optional<Item> item = itemService.findById(itemId);
-        if (!user.isPresent() || !item.isPresent()) {
-            return new ShoppingCart();
-        }
-
-        OrderItem orderItem = new OrderItem();
-        orderItem.setItem(item.get());
-        orderItem.setQuantity(quantity);
-        orderItemService.save(orderItem);
-
-        ShoppingCart shoppingCart = user.get().getShoppingCart();
-        Optional<OrderItem> optionalOrderItem = shoppingCart.getOrderItems().stream()
-                .filter(it -> it.getItem().getId().equals(itemId))
-                .findFirst();
-        if (!optionalOrderItem.isPresent()) {
-            shoppingCart.getOrderItems().add(orderItem);
-        } else {
-            if (quantity + optionalOrderItem.get().getQuantity() > 0) {
-                optionalOrderItem.get().setQuantity(quantity + optionalOrderItem.get().getQuantity());
-            } else if (quantity + optionalOrderItem.get().getQuantity() == 0) {
-                shoppingCart.getOrderItems().remove(optionalOrderItem.get());
-            }
-        }
-        userService.save(user.get());
-        return shoppingCart;
     }
 
     @GetMapping("/shoppingCart")
