@@ -20,7 +20,7 @@
         },
         methods: {
             addToCart: function () {
-                this.$http.get('/cart/add-item', {params: {'username':"fidanym", itemId: this.item.id, quantity: 1}})
+                this.$http.post('/cart/add-item',{'username':"fidanym", itemId: this.item.id, quantity: 1}, {emulateJSON: true})
                     .then(function (res) {
                         this.$store.commit('setShoppingCart', res.body);
                     })

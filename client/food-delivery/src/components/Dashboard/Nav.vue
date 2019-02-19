@@ -36,7 +36,7 @@
                 this.$router.push('/auth/login');
             }
         },
-        mounted: function () {
+        created: function () {
             if (this.$auth.loggedIn()) {
                 this.$http.get('/user/me')
                     .then(function (res) {
