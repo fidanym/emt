@@ -21,20 +21,6 @@ export default new Vuex.Store({
     },
     clearShoppingCart: function (state) {
       state.shoppingCart = [];
-    },
-    addToCart: function (state, item) {
-      state.shoppingCart.push(item)
-    },
-    removeFromCart: function (state, index) {
-      state.shoppingCart.splice(index, 1)
-    }
-  },
-  actions: {
-    addToCart(context, item) {
-      context.commit('addToCart', item)
-    },
-    removeFromCart(context, index) {
-      context.commit('removeFromCart', index)
     }
   }
 })
