@@ -34,6 +34,13 @@
             },
             cartSize: function () {
                 return this.getCartSize();
+            },
+            total: function () {
+                let sum = 0;
+                for (let i = 0; i < this.cartSize; i++) {
+                    sum += this.cart.orderItems[i].item.price * this.cart.orderItems[i].quantity;
+                }
+                return sum;
             }
         },
         methods: {
@@ -41,11 +48,13 @@
                 alert("You're on a diet!")
             },
             getCartSize: function () {
+                if (typeof this.cart.orderItems == 'undefined')
+                    return 0;
                 return this.cart.orderItems.length;
             }
         },
         mounted: function () {
-            this.$http.get('/user/shoppingCart', {params: {'username':"fidanym"}})
+            this.$http.get('/user/shoppingCart', {params: {'username':this.user.username}})
                 .then(function (res) {
                     this.$store.commit('setShoppingCart', res.body);
                 })

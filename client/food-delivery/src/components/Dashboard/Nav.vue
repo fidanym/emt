@@ -36,19 +36,7 @@
                 this.$router.push('/auth/login');
             }
         },
-        mounted: function () {
-            if (this.$auth.loggedIn()) {
-                this.$http.get('/user/me')
-                    .then(function (res) {
-                        this.$store.commit('setCurrentUser', res.body);
-                    })
-                    .catch(function (res) {
-                        this.$store.commit('clearCurrentUser');
-                    })
-            } else {
-                this.$store.commit('clearCurrentUser');
-            }
-        }
+
     }
 </script>
 

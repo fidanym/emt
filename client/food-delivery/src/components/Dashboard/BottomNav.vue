@@ -29,9 +29,14 @@
         components: {
             shoppingCart: ShoppingCart
         },
+        computed: {
+            user: function () {
+                return this.$store.state.currentUser;
+            }
+        },
         data: function () {
             return {
-                toggle: false
+                toggle: false,
             }
         },
         methods: {
@@ -39,8 +44,8 @@
                 this.toggle = false;
             }
         },
-        mounted: function () {
-            this.$http.get('/user/shoppingCart', {params: {'username':"fidanym"}})
+        created: function () {
+            this.$http.get('/user/shoppingCart', {params: {'username': this.user.username}})
                 .then(function (res) {
                     this.$store.commit('setShoppingCart', res.body);
                 })

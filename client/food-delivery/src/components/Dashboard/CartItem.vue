@@ -6,11 +6,17 @@
                     <h5 class="card-title">{{ item.name }} <small class="text-muted">{{ item.company.name }}</small></h5>
                 </div>
                 <div class="col-md-12 col">
-                    <span>{{ item.price | currency}}</span>
+                    <span>{{ item.price | currency}} x {{ quantity }}</span>
                 </div>
                 <div class="cart-item-buttons">
-                    <button @click="deleteItem" class="btn btn-danger"><font-awesome-icon icon="times"/></button>
-                    <button class="btn btn-info" data-toggle="popover" data-trigger="focus" :data-title="item.name" :data-content="item.description"><font-awesome-icon icon="info"/></button>
+                    <div class="cart-buttons">
+                        <button @click="deleteItem" class="btn btn-outline-danger"><font-awesome-icon icon="times"/></button>
+                        <button class="btn btn-outline-info" data-toggle="popover" data-trigger="focus" :data-title="item.name" :data-content="item.description"><font-awesome-icon icon="info"/></button>
+                    </div>
+                    <div class="cart-buttons">
+                        <button @click="increaseQuantity" class="btn btn-outline-success"><font-awesome-icon icon="plus"/></button>
+                        <button class="btn btn-outline-secondary"><font-awesome-icon icon="minus"/></button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -26,13 +32,25 @@
         },
         data: function () {
             return {
-                item: this.menuItem.item
+                item: this.menuItem.item,
+                quantity: this.menuItem.quantity
+            }
+        },
+        computed: {
+            user: function () {
+                return this.$store.state.currentUser;
             }
         },
         methods: {
             deleteItem: function () {
-                //this.$store.dispatch('removeFromCart', this.index);
                 console.log("Can't delete yet sinek");
+            },
+            increaseQuantity: function () {
+                this.$http.post('/cart/add-item',{'username': this.user.username, itemId: this.item.id, quantity: 1}, {emulateJSON: true})
+                    .then(function (res) {
+                        this.$store.commit('setShoppingCart', res.body);
+                    });
+                this.quantity++;
             }
         },
         created: function () {
@@ -74,6 +92,10 @@
         position: absolute;
         top: 5px;
         right: 5px;
+    }
+    .cart-buttons {
+        display: block;
+        margin-top: 5px;
     }
     hr {
         margin: 0;
