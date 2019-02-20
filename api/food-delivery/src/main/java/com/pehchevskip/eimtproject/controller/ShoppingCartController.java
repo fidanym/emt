@@ -32,21 +32,23 @@ public class ShoppingCartController {
     }
 
     @PostMapping("/remove-item")
-    public ResponseEntity<Boolean> removeItem(@RequestParam String username, @RequestParam Long itemId) {
-        if (shoppingCartService.removeItem(username, itemId)) {
-            return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<ShoppingCart> removeItem(@RequestParam String username, @RequestParam Long itemId) {
+        ShoppingCart cart = shoppingCartService.removeItem(username, itemId);
+        if (cart != null) {
+            return new ResponseEntity<>(cart, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
     @PostMapping("/decrease-qty")
-    public ResponseEntity<Boolean> decreaseQty(
+    public ResponseEntity<ShoppingCart> decreaseQty(
             @RequestParam String username,
             @RequestParam Long itemId,
             @RequestParam int quantity) {
-        if (shoppingCartService.decreaseQty(username, itemId, quantity)) {
-            return new ResponseEntity<>(HttpStatus.OK);
+        ShoppingCart cart = shoppingCartService.decreaseQty(username, itemId, quantity);
+        if (cart != null) {
+            return new ResponseEntity<>(cart, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
