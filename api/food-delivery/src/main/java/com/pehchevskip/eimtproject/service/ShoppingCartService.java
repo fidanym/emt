@@ -56,24 +56,24 @@ public class ShoppingCartService {
         return shoppingCart;
     }
 
-    public boolean removeItem(String username, Long itemId) {
+    public ShoppingCart removeItem(String username, Long itemId) {
         Optional<User> user = userService.findByUsername(username);
         if (!user.isPresent()) {
-            return false;
+            return null;
         }
 
         List<OrderItem> cartItems = user.get().getShoppingCart().getOrderItems();
         if (cartItems.removeIf(currentItem -> currentItem.getItem().getId().equals(itemId))) {
             userService.save(user.get());
-            return true;
+            return user.get().getShoppingCart();
         }
-        return false;
+        return null;
     }
 
-    public boolean decreaseQty(String username, Long itemId, int quantity) {
+    public ShoppingCart decreaseQty(String username, Long itemId, int quantity) {
         Optional<User> user = userService.findByUsername(username);
         if (!user.isPresent()) {
-            return false;
+            return null;
         }
 
         List<OrderItem> cartItems = user.get().getShoppingCart().getOrderItems();
@@ -82,19 +82,19 @@ public class ShoppingCartService {
 
         if (found.isPresent()) {
             if (found.get().getQuantity() - quantity < 0) {
-                return false;
+                return null;
             }
             if (found.get().getQuantity() - quantity == 0) {
                 cartItems.remove(found.get());
                 userService.save(user.get());
-                return true;
+                return user.get().getShoppingCart();
             }
 
             found.get().setQuantity(found.get().getQuantity() - quantity);
             userService.save(user.get());
-            return true;
+            return user.get().getShoppingCart();
         }
 
-        return false;
+        return null;
     }
 }
