@@ -40,6 +40,18 @@ public class ShoppingCartController {
         }
     }
 
+    @PostMapping("/decrease-qty")
+    public ResponseEntity<Boolean> decreaseQty(
+            @RequestParam String username,
+            @RequestParam Long itemId,
+            @RequestParam int quantity) {
+        if (shoppingCartService.decreaseQty(username, itemId, quantity)) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @GetMapping("/my")
     public ResponseEntity<ShoppingCart> myCart() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

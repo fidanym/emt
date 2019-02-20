@@ -70,4 +70,31 @@ public class ShoppingCartService {
         return false;
     }
 
+    public boolean decreaseQty(String username, Long itemId, int quantity) {
+        Optional<User> user = userService.findByUsername(username);
+        if (!user.isPresent()) {
+            return false;
+        }
+
+        List<OrderItem> cartItems = user.get().getShoppingCart().getOrderItems();
+        Optional<OrderItem> found = cartItems.stream().filter(oi -> oi.getItem().getId().equals(itemId))
+                .findFirst();
+
+        if (found.isPresent()) {
+            if (found.get().getQuantity() - quantity < 0) {
+                return false;
+            }
+            if (found.get().getQuantity() - quantity == 0) {
+                cartItems.remove(found.get());
+                userService.save(user.get());
+                return true;
+            }
+
+            found.get().setQuantity(found.get().getQuantity() - quantity);
+            userService.save(user.get());
+            return true;
+        }
+
+        return false;
+    }
 }
