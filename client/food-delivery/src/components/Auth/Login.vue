@@ -50,6 +50,7 @@
                         });
                         this.$auth.setToken(res.headers.get('Authorization'), Date.now() + 4 * 3600 * 1000); // 4 hours in milliseconds
                         this.$router.push('/');
+
                     })
             }
         },

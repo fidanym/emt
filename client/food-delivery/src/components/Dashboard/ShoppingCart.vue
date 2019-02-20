@@ -54,6 +54,7 @@
             }
         },
         mounted: function () {
+            console.log("Shopping cart mounted")
             this.$http.get('/user/shoppingCart', {params: {'username':this.user.username}})
                 .then(function (res) {
                     this.$store.commit('setShoppingCart', res.body);

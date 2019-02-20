@@ -23,7 +23,15 @@
                 this.$http.post('/cart/add-item',{'username':"fidanym", itemId: this.item.id, quantity: 1}, {emulateJSON: true})
                     .then(function (res) {
                         this.$store.commit('setShoppingCart', res.body);
+                        this.toggleClass('cart-show-button', 'flashing')
                     })
+            },
+            toggleClass: function (id, className) {
+                const el = document.getElementById(id)
+                el.classList.add(className)
+                setTimeout(() => {
+                    el.classList.remove(className)
+                }, 300)
             }
         }
     }
