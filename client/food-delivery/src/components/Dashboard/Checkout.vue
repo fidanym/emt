@@ -149,17 +149,17 @@
                 });
             },
             done ({token, args}) {
-                console.log(token);
-                console.log(args);
+                // Fires when the stripe transaction is successfully completed
+                alert("Thanks man")
             },
             opened () {
-                // do stuff
+                // Fires when the stripe window opens
             },
             closed () {
-                // do stuff
+                // Fires when the stripe window closes for any reason
             },
             canceled () {
-                // do stuff
+                // Fires when the stripe window is closed through the close button
             }
         }
     }

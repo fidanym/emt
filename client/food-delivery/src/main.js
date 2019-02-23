@@ -44,7 +44,7 @@ Vue.http.interceptors.push(function(request, next) {
         group: 'notifications',
         type: 'error',
         title: 'Error',
-        text: 'Invalid credentials'
+        text: response.body.message
       });
       /*response.body.errors.forEach(function (e) {
         self.$notify({
