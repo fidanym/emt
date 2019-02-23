@@ -64,14 +64,23 @@
 
                     </div>
 
-
                     <div class="modal-footer">
                         <button class="btn btn-light" @click="$emit('cancelOrder')">Cancel</button>
-                        <button class="btn btn-primary" @click="createOrder"><font-awesome-icon icon="credit-card"></font-awesome-icon> Pay</button>
+                        <button class="btn btn-primary" @click="checkout"><font-awesome-icon icon="credit-card"></font-awesome-icon> Pay</button>
                     </div>
                 </div>
 
             </div>
+            <vue-stripe-checkout
+                    ref="checkoutRef"
+                    name="Food Delivery"
+                    currency="$"
+                    :allow-remember-me="false"
+                    @done="done"
+                    @opened="opened"
+                    @closed="closed"
+                    @canceled="canceled"
+            ></vue-stripe-checkout>
         </div>
     </transition>
 </template>
@@ -107,9 +116,6 @@
             this.setUserPhone();
         },
         methods: {
-            createOrder: function () {
-                alert("No.")
-            },
             setUserAddress: function () {
                 this.address = this.user.address;
             },
@@ -134,6 +140,26 @@
                     this.checkedPhone = true;
                     this.setUserPhone();
                 }
+            },
+            async checkout () {
+                // token - is the token object
+                // args - is an object containing the billing and shipping address if enabled
+                const { token, args } = await this.$refs.checkoutRef.open({
+                    amount: this.total * 100
+                });
+            },
+            done ({token, args}) {
+                console.log(token);
+                console.log(args);
+            },
+            opened () {
+                // do stuff
+            },
+            closed () {
+                // do stuff
+            },
+            canceled () {
+                // do stuff
             }
         }
     }
