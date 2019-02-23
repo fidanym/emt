@@ -116,6 +116,10 @@
         margin: 0 0 3px 0;
     }
 
+    small {
+        display: block;
+    }
+
     @media only screen and (max-width: 450px) {
         .btn {
             margin-left: 5px;

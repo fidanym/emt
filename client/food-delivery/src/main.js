@@ -8,6 +8,7 @@ import Auth from './plugins/Auth'
 import VueResource from 'vue-resource'
 import Vue2Filters from 'vue2-filters'
 import Vuelidate from 'vuelidate'
+import VueStripeCheckout from 'vue-stripe-checkout'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faUser, faRunning, faTimes, faPlus, faMinus, faInfo, faCreditCard, faSpinner, faPlusCircle, faPowerOff, faUtensils, faShoppingBasket } from '@fortawesome/free-solid-svg-icons'
@@ -21,6 +22,7 @@ Vue.use(Auth);
 Vue.use(VueResource);
 Vue.use(Vue2Filters);
 Vue.use(Vuelidate);
+Vue.use(VueStripeCheckout, 'pk_test_7Iwat1JRpC2I5SpVzlc3V4L8')
 
 Vue.config.productionTip = false;
 

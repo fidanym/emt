@@ -17,8 +17,6 @@
 </template>
 
 <script>
-    import Restaurants from "../components/Restaurants/Restaurants";
-    import Sidebar from "../components/Dashboard/Sidebar";
     import Header from "../components/Header";
     import BottomNav from "../components/Dashboard/BottomNav";
     import Nav from "../components/Dashboard/Nav";
@@ -26,7 +24,6 @@
     export default {
         name: "Dashboard",
         components: {
-            sidebar: Sidebar,
             headerJumbo: Header,
             bottomNav: BottomNav,
             navTop: Nav
@@ -46,7 +43,7 @@
                         console.log(this.$store.state.currentUser)
                         this.loaded = true;
                     })
-                    .catch(function (res) {
+                    .catch(function () {
                         this.$store.commit('clearCurrentUser');
                         this.loaded = false;
                     })
