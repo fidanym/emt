@@ -1,7 +1,7 @@
 <template>
     <div class="profile-container">
-        <h1 class="text-center font-weight-bold m-t-15">Your profile</h1>
-        <form class="m-t-30">
+        <h1 class="text-center font-weight-bold m-t-20">Your profile</h1>
+        <div class="m-t-30">
             <div class="row">
 
                 <div class="col-md-6">
@@ -39,8 +39,12 @@
                     </div>
                 </div>
             </div>
-
-        </form>
+            <div class="row">
+                <div class="col-md-2 offset-md-5">
+                    <button class="btn btn-primary btn-block m-t-20">Update Details</button>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 

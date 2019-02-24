@@ -1,6 +1,12 @@
 <template>
     <div class="container menu-container m-b-20 text-center">
-        <h1 class="m-t-15 font-weight-bold">{{ restaurantName }} Menu</h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><router-link :to="'/restaurants'">Restaurants</router-link></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ restaurantName }}</li>
+            </ol>
+        </nav>
+        <h1 class="m-b-15 font-weight-bold">{{ restaurantName }} Menu</h1>
         <div class="menu-container">
             <div class="card-columns">
                 <menu-item v-for="item in menuItems" :item="item" :restaurantName="restaurantName"></menu-item>
@@ -54,5 +60,15 @@
     #menu-loading {
         font-size: 50px;
         color: #5dc52f;
+    }
+
+    .breadcrumb {
+        background-color: #ffffff;
+        padding: .75rem 1rem 0 1rem;
+        margin-bottom: 0;
+    }
+
+    .breadcrumb-item > a {
+        color: #39a903;
     }
 </style>

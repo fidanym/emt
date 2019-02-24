@@ -4,7 +4,7 @@
             <div class="container">
                 <div class="btn-group dropup">
                     <button id="cart-show-button" @click="toggle = !toggle" type="button" class="btn btn-outline-light">
-                        <font-awesome-icon icon="shopping-basket"/> Order
+                        <font-awesome-icon icon="shopping-basket"/> Order ({{ cartSize }})
                     </button>
                 </div>
             </div>
@@ -32,6 +32,9 @@
         computed: {
             user: function () {
                 return this.$store.state.currentUser;
+            },
+            cartSize: function () {
+                return (typeof this.$store.state.shoppingCart.orderItems.length == 'undefined') ? 0 : this.$store.state.shoppingCart.orderItems.length;
             }
         },
         data: function () {
@@ -43,13 +46,6 @@
             away: function() {
                 this.toggle = false;
             }
-        },
-        created: function () {
-            console.log("Bottom nav created")
-            /*this.$http.get('/user/shoppingCart', {params: {'username': this.user.username}})
-                .then(function (res) {
-                    this.$store.commit('setShoppingCart', res.body);
-                })*/
         },
         directives: {
             onClickaway: onClickaway
