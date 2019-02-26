@@ -13,9 +13,7 @@
         <div class="row">
             <button v-if="(cartSize > 0)" @click="checkout" id="checkout-button" class="btn btn-primary btn-block"><font-awesome-icon icon="credit-card"></font-awesome-icon><span class="font-weight-bold"> Checkout</span></button>
         </div>
-        <modal v-if="showModal" @cancelOrder="showModal = false" :orderItems="cart.orderItems">
-            Custom content here
-        </modal>
+        <modal v-if="showModal" @cancelOrder="showModal = false" :orderItems="cart.orderItems"></modal>
     </div>
 </template>
 

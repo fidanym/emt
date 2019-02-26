@@ -34,7 +34,7 @@
                 return this.$store.state.currentUser;
             },
             cartSize: function () {
-                return (typeof this.$store.state.shoppingCart.orderItems.length == 'undefined') ? 0 : this.$store.state.shoppingCart.orderItems.length;
+                return (typeof this.$store.state.shoppingCart.orderItems == 'undefined') ? 0 : this.$store.state.shoppingCart.orderItems.length;
             }
         },
         data: function () {
@@ -46,6 +46,11 @@
             away: function() {
                 this.toggle = false;
             }
+        },
+        created: function () {
+            this.$root.$on("closeCart", () => {
+                this.toggle = false;
+            })
         },
         directives: {
             onClickaway: onClickaway

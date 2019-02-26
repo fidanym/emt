@@ -96,7 +96,8 @@
                 items: this.orderItems,
                 address: "",
                 checkedAddress: true,
-                checkedPhone: true
+                checkedPhone: true,
+                modalState: true
             }
         },
         computed: {
@@ -150,7 +151,11 @@
             },
             done ({token, args}) {
                 // Fires when the stripe transaction is successfully completed
-                alert("Thanks man")
+                console.log(token);
+                console.log(args);
+                this.$emit('cancelOrder');
+                this.$root.$emit('closeCart');
+                this.$router.push('/profile');
             },
             opened () {
                 // Fires when the stripe window opens
