@@ -10,11 +10,13 @@
             </div>
         </nav>
         <div>
-            <div v-show="toggle" class="container">
-                <div class="cart-container">
-                    <shopping-cart></shopping-cart>
+            <transition name="shopping-cart">
+                <div v-show="toggle" class="container">
+                    <div class="cart-container">
+                        <shopping-cart></shopping-cart>
+                    </div>
                 </div>
-            </div>
+            </transition>
         </div>
     </div>
 
@@ -92,5 +94,15 @@
         100% {
             background-color: none;
         }
+    }
+
+    .shopping-cart-enter,
+    .shopping-cart-leave-to {
+        opacity: 0;
+    }
+
+    .shopping-cart-enter-active,
+    .shopping-cart-leave-active {
+        transition: opacity .2s ease-out;
     }
 </style>
