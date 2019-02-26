@@ -5,7 +5,9 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <router-view></router-view>
+                    <transition name="fade">
+                        <router-view></router-view>
+                    </transition>
                     <div id="content-loading" v-if="!loaded">
                         <font-awesome-icon icon="spinner" spin/>
                     </div>
@@ -58,5 +60,15 @@
     #content-loading {
         font-size: 50px;
         color: #5dc52f;
+    }
+
+    .fade-enter,
+    .fade-leave-to {
+        opacity: 0;
+    }
+
+    .fade-enter-active,
+    .fade-leave-active {
+        transition: opacity .3s ease-out;
     }
 </style>
