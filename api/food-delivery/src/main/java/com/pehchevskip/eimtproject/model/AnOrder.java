@@ -28,7 +28,11 @@ public class AnOrder {
     private Double total;
 
     @Enumerated
-    private OrderStatus status = OrderStatus.NOT_PAYED;
+    private OrderStatus status = OrderStatus.PENDING;
+
+    @OneToOne
+    @JsonIgnore
+    private Payment payment;
 
     @OneToMany
     private List<OrderItem> orderItems = new ArrayList<>();

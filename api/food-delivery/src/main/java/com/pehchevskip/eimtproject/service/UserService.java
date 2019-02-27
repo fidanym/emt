@@ -21,6 +21,38 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    public User update(User user) {
+        if (user.getId() == null && user.getUsername() == null) {
+            return null;
+        }
+
+        Optional<User> found;
+
+        if (user.getId() != null) {
+            found = findById(user.getId());
+        } else {
+            found = findByUsername(user.getUsername());
+        }
+
+        if (user.getFirstName() != null) {
+            found.get().setFirstName(user.getFirstName());
+        }
+
+        if (user.getLastName() != null) {
+            found.get().setLastName(user.getLastName());
+        }
+
+        if (user.getAddress() != null) {
+            found.get().setAddress(user.getAddress());
+        }
+
+        if (user.getPhone() != null) {
+            found.get().setPhone(user.getPhone());
+        }
+
+        return save(found.get());
+    }
+
     public long deleteByUsername(String username) {
         return userRepository.deleteByUsername(username);
     }
@@ -33,11 +65,15 @@ public class UserService {
         return userRepository.findByUsername(username);
     }
 
+    public Optional<User> findById(Long id) {
+        return userRepository.findById(id);
+    }
+
     public Optional<User> findUserByAuth(Authentication auth) {
         return findByUsername(auth.getName());
     }
 
-    public User createUserWithRole(String username, String email, String password, String firstName, String lastName, String address, Role role) {
+    public User createUserWithRole(String username, String email, String password, String firstName, String lastName, String address, String phone, Role role) {
         User user = new User();
         user.setUsername(username);
         user.setEmail(email);
@@ -45,9 +81,15 @@ public class UserService {
         user.setFirstName(firstName);
         user.setLastName(lastName);
         user.setAddress(address);
+        user.setPhone(phone);
         user.setRole(role);
         user.setShoppingCart(new ShoppingCart());
         return user;
+    }
+
+    public boolean checkIfUserIsAdminOrSuperAdmin(User user) {
+        return user.getRole().equals(Role.ADMIN)
+                || user.getRole().equals(Role.SUPER_ADMIN);
     }
 
 }

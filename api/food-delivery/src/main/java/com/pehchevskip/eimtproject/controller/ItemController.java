@@ -1,12 +1,20 @@
 package com.pehchevskip.eimtproject.controller;
 
 import com.pehchevskip.eimtproject.model.Item;
+import com.pehchevskip.eimtproject.model.Role;
+import com.pehchevskip.eimtproject.model.User;
 import com.pehchevskip.eimtproject.service.CompanyService;
 import com.pehchevskip.eimtproject.service.ItemService;
+import com.pehchevskip.eimtproject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/item")
@@ -18,16 +26,52 @@ public class ItemController {
     @Autowired
     private CompanyService companyService;
 
+    @Autowired
+    private UserService userService;
+
     @PostMapping("/create")
-    public Item createItem(
+    public ResponseEntity<Item> createItem(
             @RequestParam String name,
+            @RequestParam String description,
             @RequestParam Double price,
             @RequestParam Long companyId) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String currentUsername = auth.getName();
+
+        Optional<User> user = userService.findByUsername(currentUsername);
+
+        if (!(user.get().getRole().equals(Role.SUPER_ADMIN)
+                || (user.get().getRole().equals(Role.ADMIN)
+                && companyId.equals(user.get().getCompany().getId())))) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
         Item item = new Item();
         item.setName(name);
+        item.setDescription(description);
         item.setPrice(price);
-        item.setCompany(companyService.findById(companyId).orElse(null)); // throw an exception here ?
-        return itemService.save(item);
+        item.setCompany(companyService.findById(companyId).get());
+        return new ResponseEntity<>(itemService.save(item), HttpStatus.OK);
+    }
+
+    @PostMapping("/update")
+    public ResponseEntity<Item> updateItem(@ModelAttribute Item item) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String currentUsername = auth.getName();
+
+        Optional<User> user = userService.findByUsername(currentUsername);
+
+        if (!(user.get().getRole().equals(Role.SUPER_ADMIN)
+                || (user.get().getRole().equals(Role.ADMIN)
+                && item.getCompany().getId().equals(user.get().getCompany().getId())))) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
+        Item updated = itemService.update(item);
+        if (updated == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(updated, HttpStatus.OK);
     }
 
     @GetMapping("/byCompanyId")

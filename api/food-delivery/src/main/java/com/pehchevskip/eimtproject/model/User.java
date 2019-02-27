@@ -37,6 +37,9 @@ public class User {
     @Column
     private String address;
 
+    @Column
+    private String phone;
+
     @Enumerated
     private Role role = Role.CLIENT;
 

@@ -26,4 +26,22 @@ public class ItemService {
         return itemRepository.findItemsByCompanyId(companyId);
     }
 
+    public Item update(Item item) {
+        if (item.getId() == null || item.getCompany() == null) {
+            return null;
+        }
+
+        Optional<Item> found = findById(item.getId());
+
+        if (!found.isPresent()) {
+            return null;
+        }
+
+        found.get().setName(item.getName());
+        found.get().setDescription(item.getDescription());
+        found.get().setPrice(item.getPrice());
+        found.get().setCompany(item.getCompany());
+
+        return save(found.get());
+    }
 }

@@ -24,15 +24,37 @@ public class ShoppingCartController {
     private UserService userService;
 
     @PostMapping("/add-item")
-    public ShoppingCart addItem(
+    public ResponseEntity<ShoppingCart> addItem(
             @RequestParam String username,
             @RequestParam Long itemId,
             @RequestParam int quantity) {
-        return shoppingCartService.addItem(username, itemId, quantity);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String currentUsername = auth.getName();
+
+        Optional<User> user = userService.findByUsername(currentUsername);
+
+        if (!user.get().getUsername().equals(username)) {
+            if (!userService.checkIfUserIsAdminOrSuperAdmin(user.get())) {
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            }
+        }
+
+        return new ResponseEntity<>(shoppingCartService.addItem(username, itemId, quantity), HttpStatus.OK);
     }
 
     @PostMapping("/remove-item")
     public ResponseEntity<ShoppingCart> removeItem(@RequestParam String username, @RequestParam Long itemId) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String currentUsername = auth.getName();
+
+        Optional<User> user = userService.findByUsername(currentUsername);
+
+        if (!user.get().getUsername().equals(username)) {
+            if (!userService.checkIfUserIsAdminOrSuperAdmin(user.get())) {
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            }
+        }
+
         ShoppingCart cart = shoppingCartService.removeItem(username, itemId);
         if (cart != null) {
             return new ResponseEntity<>(cart, HttpStatus.OK);
@@ -46,6 +68,17 @@ public class ShoppingCartController {
             @RequestParam String username,
             @RequestParam Long itemId,
             @RequestParam int quantity) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String currentUsername = auth.getName();
+
+        Optional<User> user = userService.findByUsername(currentUsername);
+
+        if (!user.get().getUsername().equals(username)) {
+            if (!userService.checkIfUserIsAdminOrSuperAdmin(user.get())) {
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            }
+        }
+
         ShoppingCart cart = shoppingCartService.decreaseQty(username, itemId, quantity);
         if (cart != null) {
             return new ResponseEntity<>(cart, HttpStatus.OK);
@@ -59,10 +92,6 @@ public class ShoppingCartController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String currentUsername = auth.getName();
         Optional<User> user = userService.findByUsername(currentUsername);
-
-        if (!user.isPresent()) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
 
         return new ResponseEntity<>(user.get().getShoppingCart(), HttpStatus.OK);
     }

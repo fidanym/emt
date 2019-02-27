@@ -2,7 +2,7 @@ package com.pehchevskip.eimtproject.model;
 
 public enum OrderStatus {
 
-    NOT_PAYED,
+    PENDING,
     IN_PROGRESS,
     DELIVERING,
     DELIVERED

@@ -21,36 +21,43 @@ public class CreateTestObjects implements CommandLineRunner {
 
     @Autowired
     private CompanyService companyService;
+
     @Autowired
     private UserService userService;
+
     @Autowired
     private ItemService itemService;
+
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
+    private static String[] descriptions = {"Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.", "" +
+            "Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.", "" +
+            "A small river named Duden flows by their place and supplies it with the necessary regelialia. ", "" +
+            "It is a paradisematic country, in which roasted parts of sentences fly into your mouth."};
+
+    private static String[] addresses = {"Marshal Tito 42, Berovo", "Partizanski Odredi 121, Skopje"};
+
+    private static Random rand = new Random();
+
+
     @Override
     public void run(String... args) {
-        String[] descriptions = {"Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.", "" +
-                "Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.", "" +
-                "A small river named Duden flows by their place and supplies it with the necessary regelialia. ", "" +
-                "It is a paradisematic country, in which roasted parts of sentences fly into your mouth."};
-        String[] addresses = {"Marshal Tito 42, Berovo", "Partizanski Odredi 121, Skopje"};
         Long[] companiesIds = createCompanies(descriptions, "Restoran Bolero", "Restoran Mrs", "Restoran Dionis");
-        Long fId = companiesIds[0];
-        Long sId = companiesIds[1];
-        Long tId = companiesIds[2];
+        Long comp1 = companiesIds[0];
+        Long comp2 = companiesIds[1];
+        Long comp3 = companiesIds[2];
 
-        createUsers(addresses, "pehchevskip", "jovanovskij", "markovskim");
+        createUsers(new String[] { "pehchevskip", "jovanovskij", "markovskim" },
+                    new Role[] { Role.SUPER_ADMIN, Role.ADMIN, Role.CLIENT });
 
-        createItems(new String[]{"Kebab", "Stek", "Pleskavica", "Raznic", "Pizza", "Pastramajlija", "Pasta Quattro Formaggi", "Pasta Carbonara"},
-                    descriptions,
+        createItems(new String[]{ "Kebab", "Stek", "Pleskavica", "Raznic", "Pizza", "Pastramajlija", "Pasta Quattro Formaggi", "Pasta Carbonara" },
                     new double[]{ 10, 110, 120, 30, 130, 130, 150, 140 },
-                    new Long[]{ fId, fId, fId, sId, sId, sId, tId, tId });
+                    new Long[]{ comp1, comp1, comp1, comp2, comp2, comp2, comp3, comp3 });
     }
 
     private Long[] createCompanies(String[] descriptions, String... companiesNames) {
         List<Long> result = new ArrayList<>();
-        Random rand = new Random();
         for (String companyName : companiesNames) {
             Company company = new Company();
             company.setName(companyName);
@@ -61,29 +68,30 @@ public class CreateTestObjects implements CommandLineRunner {
         return result.toArray(new Long[]{});
     }
 
-    private void createUsers(String[] addresses, String... usersNames) {
-        Random rand = new Random();
-        for (String userName : usersNames) {
-            String firstName = capitalize(String.valueOf(userName.charAt(userName.length()-1)));
-            String lastName = capitalize(userName.substring(0, userName.length()-1));
+    private void createUsers(String[] userNames, Role[] roles) {
+        for (int i = 0; i < userNames.length; ++i) {
+            String firstName = capitalize(String.valueOf(userNames[i].charAt(userNames[i].length()-1)));
+            String lastName = capitalize(userNames[i].substring(0, userNames[i].length()-1));
             String password = passwordEncoder.encode("password");
             String address = addresses[rand.nextInt(addresses.length)];
-            User user = userService.createUserWithRole(userName, userName + "@fd.com", password, firstName, lastName, address, Role.SUPER_ADMIN);
+            User user = userService.createUserWithRole(userNames[i], userNames[i] + "@fd.com", password, firstName, lastName, address, "071234567", roles[i]);
+            if (Role.ADMIN.equals(roles[i])) {
+                user.setCompany(companyService.findById(1l).get());
+            }
             userService.save(user);
         }
     }
 
-    private void createItems(String[] itemsNames, String[] descriptions, double[] prices, Long[] companiesIds) {
+    private void createItems(String[] itemsNames, double[] prices, Long[] companiecomp2s) {
         if (itemsNames.length != prices.length) {
             throw new IllegalArgumentException();
         }
-        Random rand = new Random();
         for (int i = 0; i < itemsNames.length; ++i) {
             Item item = new Item();
             item.setName(itemsNames[i]);
             item.setDescription(descriptions[rand.nextInt(descriptions.length)]);
             item.setPrice(prices[i]);
-            item.setCompany(companyService.findById(companiesIds[i]).orElse(null));
+            item.setCompany(companyService.findById(companiecomp2s[i]).orElse(null));
             itemService.save(item);
         }
     }

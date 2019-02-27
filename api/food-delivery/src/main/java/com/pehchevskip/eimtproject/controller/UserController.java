@@ -1,9 +1,6 @@
 package com.pehchevskip.eimtproject.controller;
 
 import com.pehchevskip.eimtproject.model.*;
-import com.pehchevskip.eimtproject.service.AnOrderService;
-import com.pehchevskip.eimtproject.service.ItemService;
-import com.pehchevskip.eimtproject.service.OrderItemService;
 import com.pehchevskip.eimtproject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,8 +10,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,15 +21,6 @@ public class UserController {
     private UserService userService;
 
     @Autowired
-    private ItemService itemService;
-
-    @Autowired
-    private OrderItemService orderItemService;
-
-    @Autowired
-    private AnOrderService orderService;
-
-    @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
     @PostMapping("/sign-up")
@@ -42,6 +28,27 @@ public class UserController {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setShoppingCart(new ShoppingCart());
         userService.save(user);
+    }
+
+    @PostMapping("/update")
+    public ResponseEntity<User> update(@ModelAttribute User user) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String currentUsername = auth.getName();
+
+        Optional<User> currentUser = userService.findByUsername(currentUsername);
+
+        if (!currentUser.get().getRole().equals(Role.SUPER_ADMIN)
+                && !(currentUser.get().getId().equals(user.getId())
+                    || (currentUser.get().getUsername().equals(user.getUsername())) )) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
+        User updated = userService.update(user);
+        if (updated == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(updated, HttpStatus.OK);
     }
 
     @GetMapping("/me")
@@ -54,50 +61,31 @@ public class UserController {
     }
 
     @GetMapping("/delete")
-    public Long deleteUser(@RequestParam String username) {
-        return userService.deleteByUsername(username);
+    public ResponseEntity<Long> deleteUser(@RequestParam String username) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String currentUsername = auth.getName();
+
+        Optional<User> user = userService.findByUsername(currentUsername);
+
+        if (!user.get().getRole().equals(Role.SUPER_ADMIN)) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
+        return new ResponseEntity<>(userService.deleteByUsername(username), HttpStatus.OK);
     }
 
     @GetMapping("/all")
-    public List<User> getAllUsers() {
-        return userService.findAll();
-    }
+    public ResponseEntity<List<User>> getAllUsers() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String currentUsername = auth.getName();
 
-    @GetMapping("/shoppingCart")
-    public ShoppingCart getShoppingCart(@RequestParam String username) throws InterruptedException {
-        Thread.sleep(1500);
-        Optional<User> user = userService.findByUsername(username);
-        if (!user.isPresent()) {
-            return new ShoppingCart();
-        }
-        return user.get().getShoppingCart();
-    }
+        Optional<User> user = userService.findByUsername(currentUsername);
 
-    @GetMapping("/makeOrder")
-    public ResponseEntity<AnOrder> checkout(@RequestParam String username) {
-        Optional<User> user = userService.findByUsername(username);
-        if (!user.isPresent()) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-        ShoppingCart shoppingCart = user.get().getShoppingCart();
-        List<OrderItem> orderItems = shoppingCart.getOrderItems();
-
-        if (orderItems.size() == 0) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        if (!user.get().getRole().equals(Role.SUPER_ADMIN)) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
-        AnOrder order = new AnOrder();
-        order.setDateTime(LocalDateTime.now());
-        order.setOrderItems(new ArrayList<>(orderItems));
-        order.setTotal(orderItems.stream()
-                .mapToDouble(oi -> oi.getQuantity() * oi.getItem().getPrice())
-                .sum());
-        order.setUser(user.get());
-        order.setAddress(user.get().getAddress());
-
-        shoppingCart.getOrderItems().clear();
-        userService.save(user.get());
-        return new ResponseEntity<>(orderService.makeOrder(order), HttpStatus.OK);
+        return new ResponseEntity<>(userService.findAll(), HttpStatus.OK);
     }
 
 }

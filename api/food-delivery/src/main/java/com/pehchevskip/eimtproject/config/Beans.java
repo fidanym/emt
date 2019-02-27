@@ -12,6 +12,7 @@ public class Beans {
 
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
+
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 

@@ -16,10 +16,13 @@ public class ShoppingCartService {
 
     @Autowired
     private ShoppingCartRepository shoppingCartRepository;
+
     @Autowired
     private UserService userService;
+
     @Autowired
     private ItemService itemService;
+
     @Autowired
     private OrderItemService orderItemService;
 

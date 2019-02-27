@@ -1,7 +1,10 @@
 package com.pehchevskip.eimtproject.controller;
 
 import com.pehchevskip.eimtproject.model.AnOrder;
+import com.pehchevskip.eimtproject.model.Role;
+import com.pehchevskip.eimtproject.model.User;
 import com.pehchevskip.eimtproject.service.AnOrderService;
+import com.pehchevskip.eimtproject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/order")
@@ -21,6 +25,9 @@ public class OrderController {
     @Autowired
     private AnOrderService orderService;
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping("/my")
     public List<AnOrder> my() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -28,9 +35,34 @@ public class OrderController {
         return orderService.getOrdersForUser(currentPrincipalName);
     }
 
-    @GetMapping("/pay")
-    public ResponseEntity<Boolean> pay(@RequestParam("id") Long orderId) {
-        if (orderService.pay(orderId)) {
+    @GetMapping("/checkout")
+    public ResponseEntity<AnOrder> checkout() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = auth.getName();
+
+        Optional<User> user = userService.findByUsername(currentPrincipalName);
+
+        AnOrder order = orderService.checkout(user.get());
+
+        if (order == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(order, HttpStatus.OK);
+    }
+
+    @GetMapping("/putInProgress")
+    public ResponseEntity<Boolean> putInProgress(@RequestParam("id") Long orderId) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = auth.getName();
+
+        Optional<User> user = userService.findByUsername(currentPrincipalName);
+
+        if (!user.get().getRole().equals(Role.SUPER_ADMIN)) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
+        if (orderService.putInProgress(orderId)) {
             return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -38,6 +70,15 @@ public class OrderController {
 
     @GetMapping("/delivering")
     public ResponseEntity<Boolean> delivering(@RequestParam("id") Long orderId) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = auth.getName();
+
+        Optional<User> user = userService.findByUsername(currentPrincipalName);
+
+        if (!user.get().getRole().equals(Role.SUPER_ADMIN)) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
         if (orderService.delivering(orderId)) {
             return new ResponseEntity<>(HttpStatus.OK);
         }
@@ -46,6 +87,15 @@ public class OrderController {
 
     @GetMapping("/deliver")
     public ResponseEntity<Boolean> deliver(@RequestParam("id") Long orderId) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = auth.getName();
+
+        Optional<User> user = userService.findByUsername(currentPrincipalName);
+
+        if (!user.get().getRole().equals(Role.SUPER_ADMIN)) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
         if (orderService.deliver(orderId)) {
             return new ResponseEntity<>(HttpStatus.OK);
         }
