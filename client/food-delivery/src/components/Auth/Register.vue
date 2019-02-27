@@ -27,6 +27,19 @@
 
         <hr>
 
+        <h5 class="m-b-15">Delivery information</h5>
+
+        <div class="errorText" v-if="!$v.user.address.required && $v.user.address.$dirty">Address is required</div>
+        <div class="errorText" v-if="!$v.user.address.minLength && $v.user.address.$dirty">Address must have at least {{$v.user.username.$params.minLength.min}} characters</div>
+        <input type="text" :class="{error: $v.user.address.$invalid && $v.user.address.$dirty }" class="form-control m-b-15" v-model.trim="user.address" @blur="$v.user.address.$touch()" placeholder="Delivery Address">
+
+        <div class="errorText" v-if="!$v.user.phone.required && $v.user.phone.$dirty">Phone number is required</div>
+        <div class="errorText" v-if="!$v.user.phone.numeric && $v.user.phone.$dirty">Phone number must be with numbers</div>
+        <div class="errorText" v-if="!$v.user.phone.minLength && $v.user.phone.$dirty">Phone number must have at least {{$v.user.phone.$params.minLength.min}} characters</div>
+        <input type="text" :class="{error: $v.user.phone.$invalid && $v.user.phone.$dirty }" class="form-control m-b-15" v-model.trim="user.phone" @blur="$v.user.phone.$touch()" placeholder="Phone number">
+
+        <hr>
+
         <button @click="register" class="btn btn-lg btn-primary btn-block m-b-15">Register</button>
 
         <p class="text-center">
@@ -36,7 +49,7 @@
 </template>
 
 <script>
-    import { required, minLength, alpha, alphaNum, email } from 'vuelidate/lib/validators'
+    import { required, minLength, alpha, alphaNum, email, numeric } from 'vuelidate/lib/validators'
     export default {
         name: "Register",
         data: function () {
@@ -46,7 +59,9 @@
                     lastName: "",
                     email: "",
                     username: "",
-                    password: ""
+                    password: "",
+                    address: "",
+                    number: ""
                 }
             }
         },
@@ -97,6 +112,16 @@
                 email: {
                     required,
                     email
+                },
+                address: {
+                    required,
+                    alphaNum,
+                    minLength: minLength(4)
+                },
+                phone: {
+                    required,
+                    numeric,
+                    minLength: minLength(9)
                 }
             }
         }

@@ -6,7 +6,7 @@
                     <h5 class="card-title">{{ item.name }} <small class="text-muted">{{ item.company.name }}</small></h5>
                 </div>
                 <div class="col-md-12 col">
-                    <span>{{ item.price | currency}} x {{ quantity }}</span>
+                    <span>{{ item.price | currency}} x {{ menuItem.quantity }}</span>
                 </div>
                 <div class="cart-item-buttons">
                     <div class="cart-buttons">
@@ -15,7 +15,7 @@
                     </div>
                     <div class="cart-buttons">
                         <button @click="increaseQuantity" class="btn btn-outline-success"><font-awesome-icon icon="plus"/></button>
-                        <button class="btn btn-outline-secondary"><font-awesome-icon icon="minus"/></button>
+                        <button @click="decreaseQuantity" class="btn btn-outline-secondary"><font-awesome-icon icon="minus"/></button>
                     </div>
                 </div>
             </div>
@@ -32,8 +32,7 @@
         },
         data: function () {
             return {
-                item: this.menuItem.item,
-                quantity: this.menuItem.quantity
+                item: this.menuItem.item
             }
         },
         computed: {
@@ -43,14 +42,22 @@
         },
         methods: {
             deleteItem: function () {
-                console.log("Can't delete yet sinek");
+                this.$http.post('/cart/remove-item',{'username': this.user.username, itemId: this.item.id}, {emulateJSON: true})
+                    .then(function (res) {
+                        this.$store.commit('setShoppingCart', res.body)
+                    });
             },
             increaseQuantity: function () {
                 this.$http.post('/cart/add-item',{'username': this.user.username, itemId: this.item.id, quantity: 1}, {emulateJSON: true})
                     .then(function (res) {
-                        this.$store.commit('setShoppingCart', res.body);
+                        this.$store.commit('setShoppingCart', res.body)
                     });
-                this.quantity++;
+            },
+            decreaseQuantity: function () {
+                this.$http.post('/cart/decrease-qty',{'username': this.user.username, itemId: this.item.id, quantity: 1}, {emulateJSON: true})
+                    .then(function (res) {
+                        this.$store.commit('setShoppingCart', res.body)
+                    });
             }
         },
         created: function () {
@@ -107,6 +114,10 @@
     h6 {
         font-size: 0.8em;
         margin: 0 0 3px 0;
+    }
+
+    small {
+        display: block;
     }
 
     @media only screen and (max-width: 450px) {

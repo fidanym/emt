@@ -10,20 +10,27 @@
                 <h5 v-if="(cartSize > 0)" class="m-t-15"><span class="font-weight-bold">Total: </span> {{ this.total | currency }}</h5>
             </div>
         </div>
-
         <div class="row">
             <button v-if="(cartSize > 0)" @click="checkout" id="checkout-button" class="btn btn-primary btn-block"><font-awesome-icon icon="credit-card"></font-awesome-icon><span class="font-weight-bold"> Checkout</span></button>
         </div>
+        <modal v-if="showModal" @cancelOrder="showModal = false" :orderItems="cart.orderItems"></modal>
     </div>
 </template>
 
 <script>
     import CartItem from "./CartItem";
+    import Checkout from "./Checkout";
 
     export default {
         name: "ShoppingCart",
         components: {
-            cartItem: CartItem
+            cartItem: CartItem,
+            modal: Checkout
+        },
+        data: function () {
+            return {
+                showModal: false
+            }
         },
         computed: {
             user: function () {
@@ -45,7 +52,7 @@
         },
         methods: {
             checkout: function () {
-                alert("You're on a diet!")
+                this.showModal = true;
             },
             getCartSize: function () {
                 if (typeof this.cart.orderItems == 'undefined')
@@ -54,6 +61,7 @@
             }
         },
         mounted: function () {
+            console.log("Shopping cart mounted")
             this.$http.get('/user/shoppingCart', {params: {'username':this.user.username}})
                 .then(function (res) {
                     this.$store.commit('setShoppingCart', res.body);

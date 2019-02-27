@@ -3,18 +3,20 @@
         <nav class="navbar fixed-bottom navbar-expand-sm navbar-dark bg-dark">
             <div class="container">
                 <div class="btn-group dropup">
-                    <button @click="toggle = !toggle" type="button" class="btn btn-outline-light">
-                        <font-awesome-icon icon="shopping-basket"/> Order
+                    <button id="cart-show-button" @click="toggle = !toggle" type="button" class="btn btn-outline-light">
+                        <font-awesome-icon icon="shopping-basket"/> Order ({{ cartSize }})
                     </button>
                 </div>
             </div>
         </nav>
         <div>
-            <div v-show="toggle" class="container">
-                <div class="cart-container">
-                    <shopping-cart></shopping-cart>
+            <transition name="shopping-cart">
+                <div v-show="toggle" class="container">
+                    <div class="cart-container">
+                        <shopping-cart></shopping-cart>
+                    </div>
                 </div>
-            </div>
+            </transition>
         </div>
     </div>
 
@@ -32,6 +34,9 @@
         computed: {
             user: function () {
                 return this.$store.state.currentUser;
+            },
+            cartSize: function () {
+                return (typeof this.$store.state.shoppingCart.orderItems == 'undefined') ? 0 : this.$store.state.shoppingCart.orderItems.length;
             }
         },
         data: function () {
@@ -45,10 +50,9 @@
             }
         },
         created: function () {
-            this.$http.get('/user/shoppingCart', {params: {'username': this.user.username}})
-                .then(function (res) {
-                    this.$store.commit('setShoppingCart', res.body);
-                })
+            this.$root.$on("closeCart", () => {
+                this.toggle = false;
+            })
         },
         directives: {
             onClickaway: onClickaway
@@ -74,5 +78,31 @@
         border-top-right-radius: 10px;
         box-shadow: 1px 10px 8px #888888;
         z-index: 1022;
+    }
+
+    .flashing {
+        animation: flash .5s;
+    }
+
+    @keyframes flash {
+        0% {
+            background-color: none;
+        }
+        50% {
+            background-color: rgba(74, 250, 50, 0.71);
+        }
+        100% {
+            background-color: none;
+        }
+    }
+
+    .shopping-cart-enter,
+    .shopping-cart-leave-to {
+        opacity: 0;
+    }
+
+    .shopping-cart-enter-active,
+    .shopping-cart-leave-active {
+        transition: opacity .2s ease-out;
     }
 </style>
