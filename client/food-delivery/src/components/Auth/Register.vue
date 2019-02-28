@@ -115,7 +115,6 @@
                 },
                 address: {
                     required,
-                    alphaNum,
                     minLength: minLength(4)
                 },
                 phone: {

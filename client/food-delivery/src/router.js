@@ -9,6 +9,7 @@ import Dashboard from "./views/Dashboard";
 import Profile from "./views/Profile";
 import Restaurants from "./components/Restaurants/Restaurants";
 import RestaurantView from "./views/RestaurantView";
+import Orders from "./views/Orders";
 
 Vue.use(Router);
 
@@ -40,6 +41,12 @@ export default new Router({
           name: 'restaurantsView',
           component: RestaurantView,
           props: true,
+          meta: { requiresAuth: true }
+        },
+        {
+          path: 'orders',
+          name: 'orders',
+          component: Orders,
           meta: { requiresAuth: true }
         }
       ]

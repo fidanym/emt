@@ -121,8 +121,7 @@
                 this.address = this.user.address;
             },
             setUserPhone: function () {
-                //this.phone = this.user.phone;
-                this.phone = '070192';
+                this.phone = this.user.phone;
             },
             toggleAddressInput: function () {
                 if (this.checkedAddress === true) {
@@ -155,7 +154,7 @@
                 console.log(args);
                 this.$emit('cancelOrder');
                 this.$root.$emit('closeCart');
-                this.$router.push('/profile');
+                this.$router.push('/orders');
             },
             opened () {
                 // Fires when the stripe window opens

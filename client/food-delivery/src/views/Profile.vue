@@ -8,17 +8,17 @@
                     <div class="form-group row">
                         <label for="first_name" class="col-sm-2 col-form-label text-right">Name:</label>
                         <div class="col-sm-5">
-                            <input type="text" class="form-control" id="first_name" placeholder="First Name">
+                            <input type="text" v-model="newUser.firstName" class="form-control" id="first_name" placeholder="First Name">
                         </div>
                         <div class="col-sm-5">
-                            <input type="text" class="form-control" id="last_name" placeholder="Last Name">
+                            <input type="text" v-model="newUser.lastName" class="form-control" id="last_name" placeholder="Last Name">
                         </div>
                     </div>
 
                     <div class="form-group row">
                         <label for="email" class="col-sm-2 col-form-label text-right">E-mail:</label>
                         <div class="col-sm-10">
-                            <input type="email" class="form-control" id="email">
+                            <input type="email" v-model="newUser.email" class="form-control" id="email">
                         </div>
                     </div>
                 </div>
@@ -27,21 +27,21 @@
                     <div class="form-group row">
                         <label for="address" class="col-sm-2 col-form-label text-right">Address:</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="address">
+                            <input type="text" v-model="newUser.address" class="form-control" id="address">
                         </div>
                     </div>
 
                     <div class="form-group row">
                         <label for="phone" class="col-sm-2 col-form-label text-right">Phone:</label>
                         <div class="col-sm-10">
-                            <input type="tel" class="form-control" id="phone">
+                            <input type="tel" v-model="newUser.phone" class="form-control" id="phone">
                         </div>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-2 offset-md-5">
-                    <button class="btn btn-primary btn-block m-t-20">Update Details</button>
+                    <button @click="updateUserDetails" class="btn btn-primary btn-block m-t-20">Update Details</button>
                 </div>
             </div>
         </div>
@@ -50,7 +50,37 @@
 
 <script>
     export default {
-        name: "Profile"
+        name: "Profile",
+        data: function () {
+            return {
+                newUser: {
+                    firstName: "",
+                    lastName: "",
+                    username: "",
+                    email: "",
+                    address: "",
+                    phone: ""
+                }
+            }
+        },
+        computed: {
+            user: function () {
+                return this.$store.state.currentUser;
+            }
+        },
+        methods: {
+            updateUserDetails: function () {
+                console.log(this.newUser);
+            }
+        },
+        mounted: function () {
+            this.newUser.firstName = this.user.firstName;
+            this.newUser.lastName = this.user.lastName;
+            this.newUser.username = this.user.username;
+            this.newUser.email = this.user.email;
+            this.newUser.address = this.user.address;
+            this.newUser.phone = this.user.phone;
+        }
     }
 </script>
 
