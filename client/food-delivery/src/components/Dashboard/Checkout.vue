@@ -150,11 +150,16 @@
             },
             done ({token, args}) {
                 // Fires when the stripe transaction is successfully completed
-                this.$http.post("/order/checkout", {stripeToken: token.id, stripeEmail: token.email}, { emulateJSON:true });
-                this.$emit('cancelOrder');
-                this.$root.$emit('closeCart');
-                this.$store.commit('clearShoppingCart');
-                this.$router.push('/orders');
+                this.$http.post("/order/checkout", {stripeToken: token.id, stripeEmail: token.email}, { emulateJSON:true })
+                    .then(function () {
+                        this.$emit('cancelOrder');
+                        this.$root.$emit('closeCart');
+                        this.$store.commit('clearShoppingCart');
+                        this.$router.push('/orders');
+                    })
+                    .catch(function () {
+                        alert("Uhm, something is not ok");
+                    });
             },
             opened () {
                 // Fires when the stripe window opens

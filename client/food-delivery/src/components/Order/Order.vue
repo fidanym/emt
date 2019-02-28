@@ -1,13 +1,16 @@
 <template>
     <div class="card order">
-        <div class="card-header">Order ID</div>
-        <div class="card-body">ORDER STATUS</div>
+        <div class="card-header">{{ order.id }}</div>
+        <div class="card-body">{{ order.status }}</div>
     </div>
 </template>
 
 <script>
     export default {
-        name: "Order"
+        name: "Order",
+        props: {
+            order: Object
+        }
     }
 </script>
 
