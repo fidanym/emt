@@ -30,6 +30,10 @@ public class AnOrderService {
         return anOrderRepository.findAllByUser_Username(username);
     }
 
+    public List<AnOrder> getAllOrders() {
+        return anOrderRepository.findAll();
+    }
+
     public AnOrder checkout(User user, String stripeToken, String stripeEmail) {
         if (user == null) {
             return null;
