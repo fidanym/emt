@@ -150,10 +150,10 @@
             },
             done ({token, args}) {
                 // Fires when the stripe transaction is successfully completed
-                console.log(token);
-                console.log(args);
+                this.$http.post("/order/checkout", {stripeToken: token.id, stripeEmail: token.email}, { emulateJSON:true });
                 this.$emit('cancelOrder');
                 this.$root.$emit('closeCart');
+                this.$store.commit('clearShoppingCart');
                 this.$router.push('/orders');
             },
             opened () {
