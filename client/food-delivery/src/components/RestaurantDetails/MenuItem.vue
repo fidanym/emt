@@ -18,9 +18,14 @@
             item: Object,
             restaurantName: String
         },
+        computed: {
+            user: function () {
+                return this.$store.state.currentUser;
+            }
+        },
         methods: {
             addToCart: function () {
-                this.$http.post('/cart/add-item',{'username':"fidanym", itemId: this.item.id, quantity: 1}, {emulateJSON: true})
+                this.$http.post('/cart/add-item',{'username': this.user.username, itemId: this.item.id, quantity: 1}, {emulateJSON: true})
                     .then(function (res) {
                         this.$store.commit('setShoppingCart', res.body);
                         this.toggleClass('cart-show-button', 'flashing')
