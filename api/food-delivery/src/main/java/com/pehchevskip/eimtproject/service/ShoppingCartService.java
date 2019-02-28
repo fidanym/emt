@@ -34,7 +34,7 @@ public class ShoppingCartService {
         Optional<User> user = userService.findByUsername(username);
         Optional<Item> item = itemService.findById(itemId);
         if (!user.isPresent() || !item.isPresent()) {
-            return new ShoppingCart();
+            return null;
         }
 
         OrderItem orderItem = new OrderItem();

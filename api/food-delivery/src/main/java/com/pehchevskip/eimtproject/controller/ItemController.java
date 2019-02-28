@@ -74,6 +74,28 @@ public class ItemController {
         return new ResponseEntity<>(updated, HttpStatus.OK);
     }
 
+    @PostMapping("/delete")
+    public ResponseEntity<Boolean> deleteItem(@RequestParam Long id) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String currentUsername = auth.getName();
+
+        Optional<User> user = userService.findByUsername(currentUsername);
+        Optional<Item> item = itemService.findById(id);
+
+        if (!item.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        if (!(user.get().getRole().equals(Role.SUPER_ADMIN)
+                || (user.get().getRole().equals(Role.ADMIN)
+                && item.get().getCompany().getId().equals(user.get().getCompany().getId())))) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
+        itemService.delete(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @GetMapping("/byCompanyId")
     public List<Item> findByCompanyId(@RequestParam Long companyId) {
         return itemService.findByCompanyId(companyId);

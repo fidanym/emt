@@ -27,7 +27,7 @@ public class ItemService {
     }
 
     public Item update(Item item) {
-        if (item.getId() == null || item.getCompany() == null) {
+        if (item.getId() == null) {
             return null;
         }
 
@@ -37,11 +37,22 @@ public class ItemService {
             return null;
         }
 
-        found.get().setName(item.getName());
-        found.get().setDescription(item.getDescription());
-        found.get().setPrice(item.getPrice());
-        found.get().setCompany(item.getCompany());
+        if (item.getName() != null) {
+            found.get().setName(item.getName());
+        }
+
+        if (item.getDescription() != null) {
+            found.get().setDescription(item.getDescription());
+        }
+
+        if (item.getPrice() != null) {
+            found.get().setPrice(item.getPrice());
+        }
 
         return save(found.get());
+    }
+
+    public void delete(Long id) {
+        itemRepository.deleteById(id);
     }
 }

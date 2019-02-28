@@ -63,4 +63,28 @@ public class CompanyService {
         }
     }
 
+    public Company update(Company company) {
+        if (company.getId() == null) {
+            return null;
+        }
+
+        Optional<Company> found = findById(company.getId());
+        if (!found.isPresent()) {
+            return null;
+        }
+
+        if (company.getDescription() != null) {
+            found.get().setDescription(company.getDescription());
+        }
+
+        if (company.getName() != null) {
+            found.get().setName(company.getName());
+        }
+
+        return save(found.get());
+    }
+
+    public void delete(Long id) {
+        companyRepository.deleteById(id);
+    }
 }

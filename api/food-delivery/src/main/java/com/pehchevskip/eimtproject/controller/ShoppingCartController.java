@@ -39,7 +39,13 @@ public class ShoppingCartController {
             }
         }
 
-        return new ResponseEntity<>(shoppingCartService.addItem(username, itemId, quantity), HttpStatus.OK);
+        ShoppingCart cart = shoppingCartService.addItem(username, itemId, quantity);
+
+        if (cart == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(cart, HttpStatus.OK);
     }
 
     @PostMapping("/remove-item")

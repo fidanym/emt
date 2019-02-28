@@ -28,6 +28,11 @@ public class CompanyController {
     @Autowired
     private UserService userService;
 
+    @GetMapping("/all")
+    public ResponseEntity<List<Company>> findAllCompanies() {
+        return new ResponseEntity<>(companyService.findAll(), HttpStatus.OK);
+    }
+
     @PostMapping("/create")
     public ResponseEntity<Company> createCompany(String name, String description) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -45,9 +50,40 @@ public class CompanyController {
         return new ResponseEntity<>(companyService.save(company), HttpStatus.OK);
     }
 
-    @GetMapping("/all")
-    public ResponseEntity<List<Company>> findAllCompanies() {
-        return new ResponseEntity<>(companyService.findAll(), HttpStatus.OK);
+    @PostMapping("/update")
+    public ResponseEntity<Company> updateCompany(@ModelAttribute Company company) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String currentUsername = auth.getName();
+
+        Optional<User> user = userService.findByUsername(currentUsername);
+
+        if (!(user.get().getRole().equals(Role.SUPER_ADMIN)
+                || (user.get().getRole().equals(Role.ADMIN)
+                && user.get().getCompany().getId().equals(company.getId())))) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
+        Company updated = companyService.update(company);
+
+        if (updated == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(updated, HttpStatus.OK);
+    }
+
+    @PostMapping("/delete")
+    public ResponseEntity<Boolean> deleteCompany(@RequestParam Long id) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String currentUsername = auth.getName();
+
+        Optional<User> user = userService.findByUsername(currentUsername);
+
+        if (!user.get().getRole().equals(Role.SUPER_ADMIN)) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
+        companyService.delete(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping("/add-image")
