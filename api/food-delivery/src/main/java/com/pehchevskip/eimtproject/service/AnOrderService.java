@@ -74,20 +74,7 @@ public class AnOrderService {
         return anOrderRepository.save(savedOrder);
     }
 
-    public boolean putInProgress(Long orderId) {
-        return changeOrderStatus(orderId, OrderStatus.IN_PROGRESS);
-    }
-
-    public boolean delivering(Long orderId) {
-        return changeOrderStatus(orderId, OrderStatus.DELIVERING);
-    }
-
-    public boolean deliver(Long orderId) {
-        return changeOrderStatus(orderId, OrderStatus.DELIVERED);
-    }
-
-
-    private boolean changeOrderStatus(Long orderId, OrderStatus status) {
+    public boolean changeOrderStatus(Long orderId, OrderStatus status) {
         Optional<AnOrder> order = anOrderRepository.findById(orderId);
         if (!order.isPresent()) {
             return false;
