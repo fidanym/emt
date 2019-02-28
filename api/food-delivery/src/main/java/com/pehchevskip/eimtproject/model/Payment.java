@@ -22,15 +22,12 @@ public class Payment {
     private LocalDateTime dateTime;
 
     @Column
-    private String tokenId;
+    private String stripeToken;
 
     @Column
-    private String email;
+    private String stripeEmail;
 
     @OneToOne
     private AnOrder order;
-
-    @ManyToOne
-    private User user;
 
 }

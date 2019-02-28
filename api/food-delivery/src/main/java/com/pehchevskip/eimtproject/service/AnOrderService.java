@@ -19,6 +19,9 @@ public class AnOrderService {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private PaymentService paymentService;
+
     public Optional<AnOrder> findById(Long id) {
         return anOrderRepository.findById(id);
     }
@@ -27,7 +30,7 @@ public class AnOrderService {
         return anOrderRepository.findAllByUser_Username(username);
     }
 
-    public AnOrder checkout(User user) {
+    public AnOrder checkout(User user, String stripeToken, String stripeEmail) {
         if (user == null) {
             return null;
         }
@@ -51,7 +54,20 @@ public class AnOrderService {
         cart.getOrderItems().clear();
 
         userService.save(user);
-        return anOrderRepository.save(order);
+        AnOrder savedOrder = anOrderRepository.save(order);
+
+        Payment payment = new Payment();
+        payment.setAmount(savedOrder.getTotal());
+        payment.setDateTime(LocalDateTime.now());
+        payment.setOrder(savedOrder);
+        payment.setStripeToken(stripeToken);
+        payment.setStripeEmail(stripeEmail);
+
+        Payment savedPayment = paymentService.save(payment);
+
+        savedOrder.setPayment(savedPayment);
+
+        return anOrderRepository.save(savedOrder);
     }
 
     public boolean putInProgress(Long orderId) {
