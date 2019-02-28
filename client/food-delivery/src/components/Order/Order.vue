@@ -3,7 +3,7 @@
         <div class="card-header">#{{ order.id }}</div>
         <div class="card-body">{{ order.status }}</div>
         <div v-if="userIsSuperAdmin" class="card-footer">
-            <select name="order_status" @change="updateStatus" id="order-status">
+            <select v-model="selected" name="order_status" @change="updateStatus" id="order-status">
                 <option value="PENDING">Pending</option>
                 <option value="IN_PROGRESS">In Progress</option>
                 <option value="DELIVERING">Delivering</option>
@@ -16,6 +16,11 @@
 <script>
     export default {
         name: "Order",
+        data: function () {
+            return {
+                selected: ""
+            }
+        },
         props: {
             order: Object
         },
@@ -29,11 +34,14 @@
         },
         methods: {
             updateStatus: function (event) {
-                this.$http.post('/order/changeStatus', {id: this.order.id, status: event.target.value})
+                this.$http.post('/order/changeStatus', {id: this.order.id, status: event.target.value}, { emulateJSON: true })
                     .then(function (res) {
-                        console.log(res);
+                        this.order.status = event.target.value;
                     })
             }
+        },
+        created: function () {
+            this.selected = this.order.status;
         }
     }
 </script>

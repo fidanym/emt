@@ -1,6 +1,7 @@
 <template>
     <div class="card border-success">
         <span class="badge badge-secondary price-tag align-middle">{{ item.price | currency }}</span>
+        <router-link v-if="userIsManager" :to="{ name: 'item', params: {id: item.id, item: item} }" class="edit-button align-middle" title="Edit"><font-awesome-icon icon="cog"/></router-link>
         <div class="card-body">
             <h5 class="card-title font-weight-bold m-t-15">{{ item.name }}</h5>
             <p class="card-text">{{ item.description }}</p>
@@ -21,6 +22,11 @@
         computed: {
             user: function () {
                 return this.$store.state.currentUser;
+            },
+            userIsManager: function () {
+                if (this.user.role === "SUPER_ADMIN")
+                    return true;
+                else return this.user.role === "ADMIN" && (this.user.company.id === this.item.company.id);
             }
         },
         methods: {
@@ -81,5 +87,19 @@
         border-top-right-radius: 0;
         border-bottom-left-radius: 0;
         background-color: #28a745;
+    }
+    .edit-button {
+        position: absolute;
+        right: 0;
+        top: 0;
+        height: 35px;
+        width: 60px;
+        padding-top: 10px;
+        border-top-right-radius: 2px;
+        border-top-left-radius: 0;
+        border-bottom-right-radius: 0;
+        background-color: #28a745;
+        color: #ffffff;
+        font-size: 0.9em;
     }
 </style>
