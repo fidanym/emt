@@ -36,13 +36,10 @@
             }
         },
         created: function () {
-            console.log("Dashboard created")
             if (this.$auth.loggedIn()) {
                 this.$http.get('/user/me')
                     .then(function (res) {
                         this.$store.commit('setCurrentUser', res.body);
-                        console.log("User set in store")
-                        console.log(this.$store.state.currentUser)
                         this.loaded = true;
                     })
                     .catch(function () {

@@ -14,13 +14,6 @@
                             <input type="text" v-model="newUser.lastName" class="form-control" id="last_name" placeholder="Last Name">
                         </div>
                     </div>
-
-                    <div class="form-group row">
-                        <label for="email" class="col-sm-2 col-form-label text-right">E-mail:</label>
-                        <div class="col-sm-10">
-                            <input type="email" v-model="newUser.email" class="form-control" id="email">
-                        </div>
-                    </div>
                 </div>
 
                 <div class="col-md-6">
@@ -57,7 +50,6 @@
                     firstName: "",
                     lastName: "",
                     username: "",
-                    email: "",
                     address: "",
                     phone: ""
                 }
@@ -70,14 +62,23 @@
         },
         methods: {
             updateUserDetails: function () {
-                console.log(this.newUser);
+                let self = this;
+                this.$http.post("/user/update", this.newUser, {emulateJSON: true})
+                    .then(function (res) {
+                        self.$notify({
+                            group: 'notifications',
+                            type: 'success',
+                            title: 'Success',
+                            text: 'User details updated'
+                        });
+                        this.$store.commit('setCurrentUser', res.body);
+                    })
             }
         },
         mounted: function () {
             this.newUser.firstName = this.user.firstName;
             this.newUser.lastName = this.user.lastName;
             this.newUser.username = this.user.username;
-            this.newUser.email = this.user.email;
             this.newUser.address = this.user.address;
             this.newUser.phone = this.user.phone;
         }

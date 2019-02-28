@@ -6,8 +6,9 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav mr-auto">
-                    <router-link class="nav-item nav-link active" :to="'/profile'"><font-awesome-icon icon="user" />&nbsp; {{ user.firstName }} {{ user.lastName }}</router-link>
+                    <router-link class="nav-item nav-link" :to="'/profile'"><font-awesome-icon icon="user" />&nbsp; {{ user.firstName }} {{ user.lastName }}</router-link>
                     <router-link :to="'/restaurants'" class="nav-item nav-link"><font-awesome-icon icon="utensils" />&nbsp; Restaurants <span class="sr-only">(current)</span></router-link>
+                    <router-link :to="'/orders'" class="nav-item nav-link"><font-awesome-icon icon="list-ul" />&nbsp; Orders <span class="sr-only">(current)</span></router-link>
                 </div>
                 <div class="navbar-nav">
                     <button @click="logout" class="btn btn-light"><font-awesome-icon icon="power-off" /> Logout</button>
