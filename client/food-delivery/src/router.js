@@ -10,6 +10,9 @@ import Profile from "./views/Profile";
 import Restaurants from "./components/Restaurants/Restaurants";
 import RestaurantView from "./views/RestaurantView";
 import Orders from "./views/Orders";
+import ManageUsers from "./views/ManageUsers";
+import Item from "./components/RestaurantDetails/Item";
+import EditRestaurant from "./components/Restaurants/EditRestaurant";
 
 Vue.use(Router);
 
@@ -47,6 +50,26 @@ export default new Router({
           path: 'orders',
           name: 'orders',
           component: Orders,
+          meta: { requiresAuth: true }
+        },
+        {
+          path: 'users',
+          name: 'users',
+          component: ManageUsers,
+          meta: { requiresAuth: true }
+        },
+        {
+          path: 'item/:id',
+          name: 'item',
+          component: Item,
+          props: true,
+          meta: { requiresAuth: true }
+        },
+        {
+          path: 'edit-restaurant/:id',
+          name: 'editRestaurant',
+          component: EditRestaurant,
+          props: true,
           meta: { requiresAuth: true }
         }
       ]

@@ -2,11 +2,18 @@
     <div class="footer" v-on-clickaway="away">
         <nav class="navbar fixed-bottom navbar-expand-sm navbar-dark bg-dark">
             <div class="container">
-                <div class="btn-group dropup">
-                    <button id="cart-show-button" @click="toggle = !toggle" type="button" class="btn btn-outline-light">
-                        <font-awesome-icon icon="shopping-basket"/> Order ({{ cartSize }})
-                    </button>
+                <div class="navbar-nav mr-auto">
+                    <div class="btn-group dropup">
+                        <button id="cart-show-button" @click="toggle = !toggle" type="button" class="btn btn-outline-light">
+                            <font-awesome-icon icon="shopping-basket"/> Order ({{ cartSize }})
+                        </button>
+                    </div>
                 </div>
+
+                <div class="navbar-nav">
+                    <button v-if="userIsSuperAdmin" @click="goToUsers" class="btn btn-outline-light"><font-awesome-icon icon="users-cog"/> Manage users</button>
+                </div>
+
             </div>
         </nav>
         <div>
@@ -35,6 +42,9 @@
             user: function () {
                 return this.$store.state.currentUser;
             },
+            userIsSuperAdmin: function () {
+                return this.user.role === "SUPER_ADMIN";
+            },
             cartSize: function () {
                 return (typeof this.$store.state.shoppingCart.orderItems == 'undefined') ? 0 : this.$store.state.shoppingCart.orderItems.length;
             }
@@ -47,6 +57,9 @@
         methods: {
             away: function() {
                 this.toggle = false;
+            },
+            goToUsers: function () {
+                this.$router.push('/users');
             }
         },
         created: function () {

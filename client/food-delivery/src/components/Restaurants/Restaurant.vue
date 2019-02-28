@@ -1,6 +1,7 @@
 <template>
     <div class="card border-success">
-        <img class="card-img-top" src="/images/food-1.jpg" alt="placeholder image">
+        <router-link v-if="userIsManager" :to="{ name: 'editRestaurant', params: {id: restaurant.id, restaurant: restaurant} }" class="edit-button align-middle" title="Edit"><font-awesome-icon icon="cog"/></router-link>
+        <img class="card-img-top" :src="`http://localhost:9090/api/company/get-image?id=`+restaurant.id" alt="placeholder image">
         <div class="card-body">
             <h5 class="card-title font-weight-bold">{{ restaurant.name }}</h5>
             <p class="card-text">{{ restaurant.description }}</p>
@@ -17,6 +18,16 @@
         name: "Restaurant",
         props: {
             restaurant: Object
+        },
+        computed: {
+            user: function () {
+                return this.$store.state.currentUser;
+            },
+            userIsManager: function () {
+                if (this.user.role === "SUPER_ADMIN")
+                    return true;
+                else return this.user.role === "ADMIN" && (this.user.company.id === this.restaurant.id);
+            }
         }
     }
 </script>
