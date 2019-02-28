@@ -32,6 +32,20 @@ public class OrderController {
         return orderService.getOrdersForUser(currentPrincipalName);
     }
 
+    @GetMapping("/all")
+    public ResponseEntity<List<AnOrder>> all() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = auth.getName();
+
+        Optional<User> user = userService.findByUsername(currentPrincipalName);
+
+        if (!user.get().getRole().equals(Role.SUPER_ADMIN)) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
+        return new ResponseEntity<>(orderService.getAllOrders(), HttpStatus.OK);
+    }
+
     @PostMapping("/checkout")
     public ResponseEntity<AnOrder> checkout(@RequestParam String stripeToken, @RequestParam String stripeEmail) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
