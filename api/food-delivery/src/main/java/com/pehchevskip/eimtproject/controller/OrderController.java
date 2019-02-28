@@ -1,6 +1,7 @@
 package com.pehchevskip.eimtproject.controller;
 
 import com.pehchevskip.eimtproject.model.AnOrder;
+import com.pehchevskip.eimtproject.model.OrderStatus;
 import com.pehchevskip.eimtproject.model.Role;
 import com.pehchevskip.eimtproject.model.User;
 import com.pehchevskip.eimtproject.service.AnOrderService;
@@ -62,8 +63,8 @@ public class OrderController {
         return new ResponseEntity<>(order, HttpStatus.OK);
     }
 
-    @GetMapping("/putInProgress")
-    public ResponseEntity<Boolean> putInProgress(@RequestParam("id") Long orderId) {
+    @PostMapping("/changeStatus")
+    public ResponseEntity<Boolean> changeStatus(@RequestParam("id") Long orderId, @RequestParam OrderStatus status) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = auth.getName();
 
@@ -73,41 +74,7 @@ public class OrderController {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
-        if (orderService.putInProgress(orderId)) {
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-    }
-
-    @GetMapping("/delivering")
-    public ResponseEntity<Boolean> delivering(@RequestParam("id") Long orderId) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String currentPrincipalName = auth.getName();
-
-        Optional<User> user = userService.findByUsername(currentPrincipalName);
-
-        if (!user.get().getRole().equals(Role.SUPER_ADMIN)) {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        }
-
-        if (orderService.delivering(orderId)) {
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-    }
-
-    @GetMapping("/deliver")
-    public ResponseEntity<Boolean> deliver(@RequestParam("id") Long orderId) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String currentPrincipalName = auth.getName();
-
-        Optional<User> user = userService.findByUsername(currentPrincipalName);
-
-        if (!user.get().getRole().equals(Role.SUPER_ADMIN)) {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        }
-
-        if (orderService.deliver(orderId)) {
+        if (orderService.changeOrderStatus(orderId, status)) {
             return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
