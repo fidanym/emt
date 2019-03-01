@@ -11,6 +11,7 @@
                 </div>
 
                 <div class="navbar-nav">
+                    <button v-if="userIsSuperAdmin" @click="goToCreate" class="btn btn-outline-light"><font-awesome-icon icon="plus"/> Create company</button>
                     <button v-if="userIsSuperAdmin" @click="goToUsers" class="btn btn-outline-light"><font-awesome-icon icon="users-cog"/> Manage users</button>
                 </div>
 
@@ -59,6 +60,9 @@
                 this.toggle = false;
             },
             goToUsers: function () {
+                this.$router.push('/users');
+            },
+            goToCreate: function () {
                 this.$router.push('/users');
             }
         },

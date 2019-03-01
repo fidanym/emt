@@ -94,12 +94,19 @@
         top: 0;
         height: 35px;
         width: 60px;
-        padding-top: 10px;
+        padding-top: 8px;
+        border: 0;
         border-top-right-radius: 2px;
         border-top-left-radius: 0;
         border-bottom-right-radius: 0;
         background-color: #28a745;
         color: #ffffff;
         font-size: 0.9em;
+    }
+    .edit-button:hover {
+        background-color: #2dc74f;
+    }
+    .edit-button:active {
+        background-color: #28a745;
     }
 </style>

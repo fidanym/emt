@@ -41,6 +41,7 @@
         padding-bottom: 10px;
         padding-top: 10px;
         border-radius: 10px;
+        margin-bottom: 30px;
     }
 
     .card-deck {

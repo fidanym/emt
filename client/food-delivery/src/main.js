@@ -11,10 +11,10 @@ import Vuelidate from 'vuelidate'
 import VueStripeCheckout from 'vue-stripe-checkout'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faUser, faRunning, faTimes, faPlus, faMinus, faInfo, faCreditCard, faSpinner, faPlusCircle, faPowerOff, faUtensils, faShoppingBasket, faListUl, faUsersCog, faCog, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
+import { faUser, faRunning, faTimes, faPlus, faMinus, faInfo, faCreditCard, faSpinner, faPlusCircle, faPowerOff, faUtensils, faShoppingBasket, faListUl, faUsersCog, faCog, faTrashAlt, faPhone, faEnvelope } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-library.add(faUser, faRunning, faTimes, faPlus, faMinus, faInfo, faCreditCard, faSpinner, faPlusCircle, faPowerOff, faUtensils, faShoppingBasket, faListUl, faUsersCog, faCog, faTrashAlt);
+library.add(faUser, faRunning, faTimes, faPlus, faMinus, faInfo, faCreditCard, faSpinner, faPlusCircle, faPowerOff, faUtensils, faShoppingBasket, faListUl, faUsersCog, faCog, faTrashAlt, faPhone, faEnvelope);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 Vue.use(Notifications);
