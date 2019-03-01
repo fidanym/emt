@@ -4,7 +4,9 @@
         <div id="orders-loading" v-show="ordersLoading">
             <font-awesome-icon icon="spinner" spin/>
         </div>
-        <order v-for="order in orders" :order="order"></order>
+        <div class="row">
+            <order v-for="order in orders" :order="order"></order>
+        </div>
     </div>
 </template>
 
