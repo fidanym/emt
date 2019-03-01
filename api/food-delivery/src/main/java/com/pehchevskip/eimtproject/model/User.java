@@ -41,7 +41,7 @@ public class User {
     private String phone;
 
     @Enumerated
-    private Role role = Role.CLIENT;
+    private Role role;
 
     @ManyToOne // only for Company Admins
     private Company company;

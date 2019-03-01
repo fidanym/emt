@@ -50,6 +50,17 @@ public class UserService {
             found.get().setPhone(user.getPhone());
         }
 
+        if (user.getRole() != null) {
+            found.get().setRole(user.getRole());
+            if (!user.getRole().equals(Role.ADMIN)) {
+                found.get().setCompany(null);
+            }
+        }
+
+        if (user.getCompany() != null && found.get().getRole().equals(Role.ADMIN)) {
+            found.get().setCompany(user.getCompany());
+        }
+
         return save(found.get());
     }
 

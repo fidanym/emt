@@ -27,6 +27,7 @@ public class UserController {
     public void signUp(@RequestBody User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setShoppingCart(new ShoppingCart());
+        user.setRole(Role.CLIENT);
         userService.save(user);
     }
 
