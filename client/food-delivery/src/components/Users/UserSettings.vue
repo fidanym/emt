@@ -15,30 +15,38 @@
                                 <div class="form-group">
                                     <label for="first_name" class="col-form-label text-right">First Name:</label>
                                     <div class="col-sm-12">
-                                        <input type="text" v-model="user.firstName" class="form-control" id="first_name">
+                                        <input type="text" :class="{error: $v.newUser.firstName.$invalid && $v.newUser.firstName.$dirty}" @blur="$v.newUser.firstName.$touch()" v-model="newUser.firstName" class="form-control" id="first_name">
                                     </div>
                                 </div>
+                                <div class="errorText" v-if="!$v.newUser.firstName.required && $v.newUser.firstName.$dirty">First name is required</div>
+                                <div class="errorText" v-if="!$v.newUser.firstName.minLength && $v.newUser.firstName.$dirty">First name must have at least {{$v.newUser.firstName.$params.minLength.min}} letters</div>
 
                                 <div class="form-group">
                                     <label for="last_name" class="col-form-label text-right">Last Name:</label>
                                     <div class="col-sm-12">
-                                        <input type="text" v-model="user.lastName" class="form-control" id="last_name">
+                                        <input type="text" :class="{error: $v.newUser.lastName.$invalid && $v.newUser.lastName.$dirty}" @blur="$v.newUser.lastName.$touch()" v-model="newUser.lastName" class="form-control" id="last_name">
                                     </div>
                                 </div>
+                                <div class="errorText" v-if="!$v.newUser.lastName.required && $v.newUser.lastName.$dirty">First name is required</div>
+                                <div class="errorText" v-if="!$v.newUser.lastName.minLength && $v.newUser.lastName.$dirty">First name must have at least {{$v.newUser.lastName.$params.minLength.min}} letters</div>
 
                                 <div class="form-group">
                                     <label for="address" class="col-form-label text-right">Address:</label>
                                     <div class="col-sm-12">
-                                        <input type="text" v-model="user.address" class="form-control" id="address">
+                                        <input type="text" :class="{error: $v.newUser.address.$invalid && $v.newUser.address.$dirty}" @blur="$v.newUser.address.$touch()" v-model="newUser.address" class="form-control" id="address">
                                     </div>
                                 </div>
+                                <div class="errorText" v-if="!$v.newUser.address.required && $v.newUser.address.$dirty">First name is required</div>
+                                <div class="errorText" v-if="!$v.newUser.address.minLength && $v.newUser.address.$dirty">First name must have at least {{$v.newUser.address.$params.minLength.min}} letters</div>
 
                                 <div class="form-group">
                                     <label for="phone" class="col-form-label text-right">Phone:</label>
                                     <div class="col-sm-12">
-                                        <input type="tel" v-model="user.phone" class="form-control" id="phone">
+                                        <input type="tel" :class="{error: $v.newUser.phone.$invalid && $v.newUser.phone.$dirty}" @blur="$v.newUser.phone.$touch()" v-model="newUser.phone" class="form-control" id="phone">
                                     </div>
                                 </div>
+                                <div class="errorText" v-if="!$v.newUser.phone.required && $v.newUser.phone.$dirty">First name is required</div>
+                                <div class="errorText" v-if="!$v.newUser.phone.minLength && $v.newUser.phone.$dirty">First name must have at least {{$v.newUser.phone.$params.minLength.min}} letters</div>
                             </div>
                         </div>
                     </div>
@@ -55,23 +63,34 @@
 </template>
 
 <script>
+    import { required, minLength, alpha, numeric } from 'vuelidate/lib/validators'
     export default {
         name: "UserSettings",
         props: {
             user: Object
         },
-        computed: {
-            newUser: function () {
-                let tmpUser = {};
-                tmpUser.firstName = this.user.firstName;
-                tmpUser.lastName = this.user.lastName;
-                tmpUser.address = this.user.address;
-                tmpUser.phone = this.user.phone;
-                return tmpUser;
+        data: function () {
+            return {
+                newUser: {
+                    firstName: "",
+                    lastName: "",
+                    username: "",
+                    address: "",
+                    phone: ""
+                }
             }
         },
         methods: {
             updateUserDetails: function () {
+                if (this.$v.$invalid) {
+                    this.$notify({
+                        group: 'notifications',
+                        type: 'error',
+                        title: 'Error',
+                        text: 'Please fill all fields correctly'
+                    });
+                    return;
+                }
                 let self = this;
                 this.$http.post("/user/update", this.newUser, {emulateJSON: true})
                     .then(function () {
@@ -81,7 +100,42 @@
                             title: 'Success',
                             text: 'User details updated'
                         });
+                        this.$root.$emit('reloadUsers');
+                        this.closeModal();
                     })
+            },
+            closeModal: function () {
+                this.$emit("closeUserModal")
+            }
+        },
+        mounted: function () {
+            this.newUser.firstName = this.user.firstName;
+            this.newUser.lastName = this.user.lastName;
+            this.newUser.username = this.user.username;
+            this.newUser.address = this.user.address;
+            this.newUser.phone = this.user.phone;
+        },
+        validations: {
+            newUser: {
+                firstName: {
+                    required,
+                    minLength: minLength(3),
+                    alpha
+                },
+                lastName: {
+                    required,
+                    minLength: minLength(3),
+                    alpha
+                },
+                address: {
+                    required,
+                    minLength: minLength(4)
+                },
+                phone: {
+                    required,
+                    numeric,
+                    minLength: minLength(9)
+                }
             }
         }
     }
@@ -145,5 +199,18 @@
         .modal-container {
             width: 95%;
         }
+    }
+
+    .error {
+        border: 1px solid #ff5654;
+    }
+    .errorText {
+        font-size: 0.75em;
+        color: #ff5654;
+    }
+
+    .form-control:focus {
+        border-color: #43b00e;
+        box-shadow: none;
     }
 </style>

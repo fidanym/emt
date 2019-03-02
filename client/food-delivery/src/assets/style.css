@@ -41,6 +41,10 @@ body {
     margin-top: 15px;
 }
 
+.m-t-5 {
+    margin-top: 5px;
+}
+
 .m-b-15 {
     margin-bottom: 15px;
 }
@@ -51,6 +55,10 @@ body {
 
 .m-b-0 {
     margin-bottom: 0;
+}
+
+.m-r-5 {
+    margin-right: 5px;
 }
 
 .no-margin {

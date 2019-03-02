@@ -5,20 +5,25 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="restaurant_name">Restaurant name:</label>
-                    <input type="text" class="form-control" name="restaurant_name" id="restaurant_name" :value="restaurant.name">
+                    <input type="text" :class="{error: $v.newRestaurant.name.$invalid && $v.newRestaurant.name.$dirty}" @blur="$v.newRestaurant.name.$touch()" class="form-control" name="restaurant_name" id="restaurant_name" v-model="newRestaurant.name">
                 </div>
+                <div class="errorText" v-if="!$v.newRestaurant.name.required && $v.newRestaurant.name.$dirty">Restaurant name can not be blank</div>
+                <div class="errorText" v-if="!$v.newRestaurant.name.minLength && $v.newRestaurant.name.$dirty">Restaurant name must have at least {{$v.newRestaurant.name.$params.minLength.min}} letters</div>
                 <div class="form-group">
                     <label for="image">Cover image:</label>
                     <input type="file" class="form-control" id="image" @change="fileChanged" accept="image/*">
                 </div>
-                <img :src="imgUrl" height="300px" alt="placeholder image">
-                <button @click="uploadFile" class="btn btn-primary m-t-20">Upload Image</button>
+                <img v-if="imgUploaded" :src="imgUrl" class="img-fluid" alt="placeholder image"><br>
+                <button @click="uploadFile" class="btn btn-primary m-t-20" :disabled="imgBtnDisabled">Upload Image</button>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="description">Short description:</label>
-                    <textarea v-model="restaurant.description" class="form-control" id="description" name="description" rows="5"></textarea>
+                    <textarea :class="{error: $v.newRestaurant.description.$invalid && $v.newRestaurant.description.$dirty}" @blur="$v.newRestaurant.description.$touch()" v-model="newRestaurant.description" class="form-control" id="description" name="description" rows="5" maxlength="200"></textarea>
+                    <p class="text-muted m-t-5">{{ 200 - newRestaurant.description.length }} character{{ 200 - newRestaurant.description === 1 ? '' : 's' }} remaining (200 max.)</p>
                 </div>
+                <div class="errorText" v-if="!$v.newRestaurant.description.required && $v.newRestaurant.description.$dirty">Restaurant name can not be blank</div>
+                <div class="errorText" v-if="!$v.newRestaurant.description.minLength && $v.newRestaurant.description.$dirty">Restaurant name must have at least {{$v.newRestaurant.description.$params.minLength.min}} letters</div>
             </div>
         </div>
         <div class="row m-t-15">
@@ -33,6 +38,7 @@
 </template>
 
 <script>
+    import { required, minLength } from 'vuelidate/lib/validators'
     export default {
         name: "EditRestaurant",
         props: {
@@ -40,8 +46,14 @@
         },
         data: function () {
             return {
+                newRestaurant: {
+                    name: "",
+                    description: ""
+                },
                 file: '',
-                imgUrl: "http://localhost:9090/api/company/get-image?id=" + this.restaurant.id
+                imgUrl: "http://localhost:9090/api/company/get-image?id=" + this.restaurant.id,
+                imgUploaded: true,
+                imgBtnDisabled: true
             }
         },
         methods: {
@@ -59,8 +71,11 @@
             },
             fileChanged: function (event) {
                 this.file = event.target.files[0];
+                if (this.file != "")
+                    this.imgBtnDisabled = false;
             },
             uploadFile: function () {
+                this.imgUploaded = false;
                 let formData = new FormData();
                 formData.append('image', this.file);
                 formData.append('id', this.restaurant.id);
@@ -71,7 +86,25 @@
                     })
                     .then(function (res) {
                         console.log(res);
+                        this.imgUploaded = true;
+                        this.imgBtnDisabled = true;
                     });
+            }
+        },
+        mounted: function () {
+            this.newRestaurant.name = this.restaurant.name;
+            this.newRestaurant.description = this.restaurant.description;
+        },
+        validations: {
+            newRestaurant: {
+                name: {
+                    required,
+                    minLength: minLength(3)
+                },
+                description: {
+                    required,
+                    minLength: minLength(10)
+                }
             }
         }
     }
@@ -84,5 +117,20 @@
         padding-top: 10px;
         border-radius: 10px;
         margin-bottom: 30px;
+    }
+    .text-muted {
+        font-size: .8em;
+    }
+    .error {
+        border: 1px solid #ff5654;
+    }
+    .errorText {
+        font-size: 0.75em;
+        color: #ff5654;
+    }
+
+    .form-control:focus {
+        border-color: #43b00e;
+        box-shadow: none;
     }
 </style>

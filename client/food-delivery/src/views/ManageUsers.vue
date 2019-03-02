@@ -29,6 +29,9 @@
         },
         created: function () {
             this.getAllUsers();
+            this.$root.$on("reloadUsers", () => {
+                this.getAllUsers();
+            })
         }
     }
 </script>
