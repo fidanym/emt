@@ -45,6 +45,13 @@
                     })
             }
         },
+        mounted: function () {
+            if (this.user.role !== "SUPER_ADMIN") {
+                setInterval(() => {
+                    this.getMyOrders();
+                }, 15000);
+            }
+        },
         created: function () {
             if (this.user.role === "SUPER_ADMIN")
                 this.getAllOrders();
