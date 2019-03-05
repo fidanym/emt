@@ -49,6 +49,7 @@
         data: function () {
             return {
                 newItem: {
+                    id: "",
                     name: "",
                     price: "",
                     description: ""
@@ -57,9 +58,14 @@
         },
         methods: {
             updateItem: function () {
-                this.$http.post('/item/save')
+                this.$http.post('/item/update', this.newItem, { emulateJSON: true })
                     .then(function () {
-
+                        this.$notify({
+                            group: "notifications",
+                            type: "success",
+                            title: "Success!",
+                            text: "Item details have been updated"
+                        });
                     })
             },
             deleteItem: function () {
@@ -70,6 +76,7 @@
             }
         },
         mounted: function () {
+            this.newItem.id = this.item.id;
             this.newItem.name = this.item.name;
             this.newItem.price = this.item.price;
             this.newItem.description = this.item.description;

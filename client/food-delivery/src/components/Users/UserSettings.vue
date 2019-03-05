@@ -47,6 +47,16 @@
                                 </div>
                                 <div class="errorText" v-if="!$v.newUser.phone.required && $v.newUser.phone.$dirty">First name is required</div>
                                 <div class="errorText" v-if="!$v.newUser.phone.minLength && $v.newUser.phone.$dirty">First name must have at least {{$v.newUser.phone.$params.minLength.min}} letters</div>
+
+                                <div class="form-group">
+                                    <label for="restaurant">Manages restaurant:</label>
+                                    <div class="col-sm-12">
+                                        <select v-model="newUser.company" @change="companyChanged" name="restaurant" id="restaurant" class="form-control">
+                                            <option value="0">None</option>
+                                            <option v-for="restaurant in restaurants" v-bind:value="restaurant.id">{{ restaurant.name }}</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -76,8 +86,11 @@
                     lastName: "",
                     username: "",
                     address: "",
-                    phone: ""
-                }
+                    phone: "",
+                    company: "",
+                    role: ""
+                },
+                restaurants: []
             }
         },
         methods: {
@@ -106,6 +119,18 @@
             },
             closeModal: function () {
                 this.$emit("closeUserModal")
+            },
+            getRestaurants: function () {
+                this.$http.get('/company/all')
+                    .then(function (res) {
+                        this.restaurants = res.body;
+                    })
+            },
+            companyChanged: function () {
+                if (this.newUser.company == 0)
+                    return;
+                else
+                    this.newUser.role = "ADMIN";
             }
         },
         mounted: function () {
@@ -114,6 +139,9 @@
             this.newUser.username = this.user.username;
             this.newUser.address = this.user.address;
             this.newUser.phone = this.user.phone;
+            this.newUser.role = this.user.role;
+            this.newUser.company = (typeof this.user.company == "object" && this.user.company != null) ? this.user.company.id : 0; // pls no, change so that user has only id, not entire company object
+            this.getRestaurants();
         },
         validations: {
             newUser: {
@@ -185,8 +213,8 @@
 
     .modal-enter .modal-container,
     .modal-leave-active .modal-container {
-        -webkit-transform: scale(1.05);
-        transform: scale(1.05);
+        -webkit-transform: scale(1.02);
+        transform: scale(1.02);
     }
 
     .items-list {

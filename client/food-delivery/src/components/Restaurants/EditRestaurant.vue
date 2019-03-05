@@ -47,6 +47,7 @@
         data: function () {
             return {
                 newRestaurant: {
+                    id: "",
                     name: "",
                     description: ""
                 },
@@ -58,9 +59,14 @@
         },
         methods: {
             updateRestaurantDetails: function () {
-                this.$http.post('/restaurant/update')
+                this.$http.post('/company/update', this.newRestaurant, { emulateJSON: true })
                     .then(function () {
-
+                        this.$notify({
+                            group: "notifications",
+                            type: "success",
+                            title: "Success!",
+                            text: "Restaurant details have been updated"
+                        });
                     })
             },
             deleteRestaurant: function () {
@@ -92,6 +98,7 @@
             }
         },
         mounted: function () {
+            this.newRestaurant.id = this.restaurant.id;
             this.newRestaurant.name = this.restaurant.name;
             this.newRestaurant.description = this.restaurant.description;
         },
