@@ -19,6 +19,14 @@
                 users: Object
             }
         },
+        computed: {
+            user: function () {
+                return this.$store.state.currentUser;
+            },
+            userIsSuperAdmin: function () {
+                return this.user.role === "SUPER_ADMIN";
+            }
+        },
         methods: {
             getAllUsers: function () {
                 this.$http.get('/user/all')
@@ -28,6 +36,9 @@
             }
         },
         created: function () {
+            if (!this.userIsSuperAdmin) {
+                this.$router.push('/restaurants')
+            }
             this.getAllUsers();
             this.$root.$on("reloadUsers", () => {
                 this.getAllUsers();

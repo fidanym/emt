@@ -11,6 +11,7 @@
                 </div>
 
                 <div class="navbar-nav">
+                    <button v-if="userIsSuperAdmin || userIsAdmin" @click="goToItemCreate" class="btn btn-outline-light m-r-5"><font-awesome-icon icon="plus"/> Create an item</button>
                     <button v-if="userIsSuperAdmin" @click="goToCreate" class="btn btn-outline-light m-r-5"><font-awesome-icon icon="plus"/> Create company</button>
                     <button v-if="userIsSuperAdmin" @click="goToUsers" class="btn btn-outline-light"><font-awesome-icon icon="users-cog"/> Manage users</button>
                 </div>
@@ -46,6 +47,9 @@
             userIsSuperAdmin: function () {
                 return this.user.role === "SUPER_ADMIN";
             },
+            userIsAdmin: function () {
+                return this.user.role === "ADMIN";
+            },
             cartSize: function () {
                 return (typeof this.$store.state.shoppingCart.orderItems == 'undefined') ? 0 : this.$store.state.shoppingCart.orderItems.length;
             }
@@ -63,7 +67,10 @@
                 this.$router.push('/users');
             },
             goToCreate: function () {
-                this.$router.push('/users');
+                this.$router.push('/create');
+            },
+            goToItemCreate: function () {
+                this.$router.push('/create-item');
             }
         },
         created: function () {

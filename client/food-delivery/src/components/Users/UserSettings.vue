@@ -127,8 +127,9 @@
                     })
             },
             companyChanged: function () {
-                if (this.newUser.company == 0)
-                    return;
+                if (this.newUser.company == 0) {
+                    this.newUser.role = "CLIENT";
+                }
                 else
                     this.newUser.role = "ADMIN";
             }

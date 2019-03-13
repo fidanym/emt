@@ -96,9 +96,7 @@
         width: 60px;
         padding-top: 8px;
         border: 0;
-        border-top-right-radius: 2px;
-        border-top-left-radius: 0;
-        border-bottom-right-radius: 0;
+        border-radius: 0 2px 0 2px;
         background-color: #28a745;
         color: #ffffff;
         font-size: 0.9em;

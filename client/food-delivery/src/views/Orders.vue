@@ -46,17 +46,17 @@
             }
         },
         mounted: function () {
-            if (this.user.role !== "SUPER_ADMIN") {
+            if (this.user.role === "SUPER_ADMIN") {
+                this.getAllOrders();
+                setInterval(() => {
+                    this.getAllOrders();
+                }, 15000);
+            } else {
+                this.getMyOrders();
                 setInterval(() => {
                     this.getMyOrders();
                 }, 15000);
             }
-        },
-        created: function () {
-            if (this.user.role === "SUPER_ADMIN")
-                this.getAllOrders();
-            else
-                this.getMyOrders();
         }
     }
 </script>

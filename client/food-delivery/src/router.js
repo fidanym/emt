@@ -13,6 +13,8 @@ import Orders from "./views/Orders";
 import ManageUsers from "./views/ManageUsers";
 import Item from "./components/RestaurantDetails/Item";
 import EditRestaurant from "./components/Restaurants/EditRestaurant";
+import NewRestaurant from "./components/Restaurants/NewRestaurant";
+import CreateItem from "./components/RestaurantDetails/CreateItem";
 
 Vue.use(Router);
 
@@ -44,6 +46,18 @@ export default new Router({
           name: 'restaurantsView',
           component: RestaurantView,
           props: true,
+          meta: { requiresAuth: true }
+        },
+        {
+          path: '/create',
+          name: 'newRestaurant',
+          component: NewRestaurant,
+          meta: { requiresAuth: true }
+        },
+        {
+          path: '/create-item',
+          name: 'newItem',
+          component: CreateItem,
           meta: { requiresAuth: true }
         },
         {

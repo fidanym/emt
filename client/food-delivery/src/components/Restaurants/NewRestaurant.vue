@@ -1,6 +1,6 @@
 <template>
     <div class="container restaurant-container">
-            <h1 class="text-center m-t-20">Update Restaurant</h1>
+        <h1 class="text-center m-t-20">Create Restaurant</h1>
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
@@ -10,12 +10,6 @@
                 <div class="errorText" v-if="!$v.newItem.name.required && $v.newItem.name.$dirty">Restaurant name can not be blank</div>
                 <div class="errorText" v-if="!$v.newItem.name.minLength && $v.newItem.name.$dirty">Restaurant name must
                     have at least {{$v.newItem.name.$params.minLength.min}} letters</div>
-                <div class="form-group">
-                    <label for="image">Cover image:</label>
-                    <input type="file" class="form-control" id="image" @change="fileChanged" accept="image/*">
-                </div>
-                <img v-if="imgUploaded" :src="imgUrl" class="img-fluid" alt="placeholder image"><br>
-                <button @click="uploadFile" class="btn btn-primary m-t-20" :disabled="imgBtnDisabled">Upload Image</button>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
@@ -30,10 +24,7 @@
         </div>
         <div class="row m-t-15">
             <div class="col-md-3 offset-3">
-                <button @click="updateRestaurantDetails" class="btn btn-primary">Update Restaurant Details</button>
-            </div>
-            <div class="col-md-3">
-                <button @click="deleteRestaurant" class="btn btn-danger"><font-awesome-icon icon="trash-alt"/> Delete Restaurant</button>
+                <button @click="updateRestaurantDetails" class="btn btn-primary">Create Restaurant</button>
             </div>
         </div>
     </div>
@@ -42,21 +33,13 @@
 <script>
     import { required, minLength } from 'vuelidate/lib/validators'
     export default {
-        name: "EditRestaurant",
-        props: {
-            restaurant: Object
-        },
+        name: "NewRestaurant",
         data: function () {
             return {
                 newItem: {
-                    id: "",
                     name: "",
                     description: ""
-                },
-                file: '',
-                imgUrl: "http://localhost:9090/api/company/get-image?id=" + this.restaurant.id,
-                imgUploaded: true,
-                imgBtnDisabled: true
+                }
             }
         },
         computed: {
@@ -65,55 +48,30 @@
             },
             userIsSuperAdmin: function () {
                 return this.user.role === "SUPER_ADMIN";
-            },
-            userIsAdmin: function () {
-                return this.user.role === "ADMIN";
             }
         },
         methods: {
             updateRestaurantDetails: function () {
-                this.$http.post('/company/update', this.newItem, { emulateJSON: true })
+                if (this.$v.$invalid) {
+                    this.$notify({
+                        group: 'notifications',
+                        type: 'error',
+                        title: 'Error',
+                        text: 'Please fill all fields correctly'
+                    });
+                    return;
+                }
+                this.$http.post('/company/create', this.newItem, { emulateJSON: true })
                     .then(function () {
                         this.$notify({
                             group: "notifications",
                             type: "success",
                             title: "Success!",
-                            text: "Restaurant details have been updated"
+                            text: "Restaurant has been created"
                         });
+                        this.$router.push('/restaurants')
                     })
-            },
-            deleteRestaurant: function () {
-                this.$http.post('/restaurant/delete', { id: this.restaurant.id }, { emulateJSON: true })
-                    .then(function () {
-                        this.$router.push('/restaurants');
-                    })
-            },
-            fileChanged: function (event) {
-                this.file = event.target.files[0];
-                if (this.file != "")
-                    this.imgBtnDisabled = false;
-            },
-            uploadFile: function () {
-                this.imgUploaded = false;
-                let formData = new FormData();
-                formData.append('image', this.file);
-                formData.append('id', this.restaurant.id);
-                this.$http.post('/company/add-image', formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                    })
-                    .then(function (res) {
-                        console.log(res);
-                        this.imgUploaded = true;
-                        this.imgBtnDisabled = true;
-                    });
             }
-        },
-        mounted: function () {
-            this.newItem.id = this.restaurant.id;
-            this.newItem.name = this.restaurant.name;
-            this.newItem.description = this.restaurant.description;
         },
         validations: {
             newItem: {
@@ -128,7 +86,7 @@
             }
         },
         created: function () {
-            if (!this.userIsAdmin && !this.userIsSuperAdmin) {
+            if (!this.userIsSuperAdmin) {
                 this.$router.push('/restaurants')
             }
         }
@@ -137,12 +95,12 @@
 
 <style scoped>
     .restaurant-container {
-         background: #fff;
-         padding-bottom: 10px;
-         padding-top: 10px;
-         border-radius: 10px;
-         margin-bottom: 30px;
-     }
+        background: #fff;
+        padding-bottom: 10px;
+        padding-top: 10px;
+        border-radius: 10px;
+        margin-bottom: 30px;
+    }
     .text-muted {
         font-size: .8em;
     }
