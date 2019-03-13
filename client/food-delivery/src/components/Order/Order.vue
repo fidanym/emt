@@ -1,10 +1,10 @@
 <template>
     <div class="col-md-6 m-t-15">
-        <div class="card order">
+        <div class="card order" :class="borderClass">
             <div class="card-header text-left">Order #{{ order.id }}</div>
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-12">{{ order.status }}</div>
+                    <div class="col-md-12 font-weight-bold" :class="textClass">{{ order.status }}</div>
                 </div>
                 <div class="row">
                     <div class="col-md-3">Address:</div>
@@ -29,7 +29,35 @@
         name: "Order",
         data: function () {
             return {
-                selected: ""
+                selected: "",
+                borderClass: "border-secondary",
+                textClass: "text-secondary",
+                status: [
+                    {
+                        code: "PENDING",
+                        text: "Pending",
+                        border: "border-danger",
+                        font: "text-danger"
+                    },
+                    {
+                        code: "IN_PROGRESS",
+                        text: "In progress",
+                        border: "border-warning",
+                        font: "text-warning"
+                    },
+                    {
+                        code: "DELIVERING",
+                        text: "Delivering",
+                        border: "border-primary",
+                        font: "text-primary"
+                    },
+                    {
+                        code: "DELIVERED",
+                        text: "Delivered",
+                        border: "border-success",
+                        font: "text-success"
+                    }
+                ]
             }
         },
         props: {
@@ -48,11 +76,27 @@
                 this.$http.post('/order/changeStatus', {id: this.order.id, status: event.target.value}, { emulateJSON: true })
                     .then(function (res) {
                         this.order.status = event.target.value;
+                        this.updateClasses();
                     })
+            },
+            updateClasses: function () {
+                let self = this;
+                this.status.filter(function (elem) {
+                    if (elem.code === self.order.status) {
+                        self.borderClass = elem.border;
+                        self.textClass = elem.font;
+                    }
+                })
             }
         },
         created: function () {
             this.selected = this.order.status;
+            this.updateClasses();
+        },
+        watch: {
+            order: function () {
+                this.updateClasses();
+            }
         }
     }
 </script>
