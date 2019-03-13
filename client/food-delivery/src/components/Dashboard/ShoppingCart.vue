@@ -61,7 +61,7 @@
             }
         },
         mounted: function () {
-            this.$http.get('/user/shoppingCart', {params: {'username':this.user.username}})
+            this.$http.get('/cart/my')
                 .then(function (res) {
                     this.$store.commit('setShoppingCart', res.body);
                 })
