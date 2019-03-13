@@ -83,7 +83,7 @@
                     })
             },
             deleteRestaurant: function () {
-                this.$http.post('/restaurant/delete', { id: this.restaurant.id }, { emulateJSON: true })
+                this.$http.post('/company/delete', { id: this.restaurant.id }, { emulateJSON: true })
                     .then(function () {
                         this.$router.push('/restaurants');
                     })
