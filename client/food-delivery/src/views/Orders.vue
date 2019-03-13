@@ -26,7 +26,9 @@
         data: function () {
             return {
                 ordersLoading: true,
-                orders: []
+                orders: [],
+                timer1: "",
+                timer2: ""
             }
         },
         methods: {
@@ -48,15 +50,19 @@
         mounted: function () {
             if (this.user.role === "SUPER_ADMIN") {
                 this.getAllOrders();
-                setInterval(() => {
+                this.timer1 = setInterval(() => {
                     this.getAllOrders();
                 }, 15000);
             } else {
                 this.getMyOrders();
-                setInterval(() => {
+                this.timer2 = setInterval(() => {
                     this.getMyOrders();
                 }, 15000);
             }
+        },
+        beforeDestroy() {
+            clearInterval(this.timer1);
+            clearInterval(this.timer2);
         }
     }
 </script>

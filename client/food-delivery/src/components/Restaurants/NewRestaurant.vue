@@ -5,21 +5,21 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="restaurant_name">Restaurant name:</label>
-                    <input type="text" :class="{error: $v.newItem.name.$invalid && $v.newItem.name.$dirty}" @blur="$v.newItem.name.$touch()" class="form-control" name="restaurant_name" id="restaurant_name" v-model="newRestaurant.name">
+                    <input type="text" :class="{error: $v.newRestaurant.name.$invalid && $v.newRestaurant.name.$dirty}" @blur="$v.newRestaurant.name.$touch()" class="form-control" name="restaurant_name" id="restaurant_name" v-model="newRestaurant.name">
                 </div>
-                <div class="errorText" v-if="!$v.newItem.name.required && $v.newItem.name.$dirty">Restaurant name can not be blank</div>
-                <div class="errorText" v-if="!$v.newItem.name.minLength && $v.newItem.name.$dirty">Restaurant name must
-                    have at least {{$v.newItem.name.$params.minLength.min}} letters</div>
+                <div class="errorText" v-if="!$v.newRestaurant.name.required && $v.newRestaurant.name.$dirty">Restaurant name can not be blank</div>
+                <div class="errorText" v-if="!$v.newRestaurant.name.minLength && $v.newRestaurant.name.$dirty">Restaurant name must
+                    have at least {{$v.newRestaurant.name.$params.minLength.min}} letters</div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="description">Short description:</label>
-                    <textarea :class="{error: $v.newItem.description.$invalid && $v.newItem.description.$dirty}" @blur="$v.newItem.description.$touch()" v-model="newRestaurant.description" class="form-control" id="description" name="description" rows="5" maxlength="200"></textarea>
+                    <textarea :class="{error: $v.newRestaurant.description.$invalid && $v.newRestaurant.description.$dirty}" @blur="$v.newRestaurant.description.$touch()" v-model="newRestaurant.description" class="form-control" id="description" name="description" rows="5" maxlength="200"></textarea>
                     <p class="text-muted m-t-5">{{ 200 - newRestaurant.description.length }} character{{ 200 - newRestaurant.description === 1 ? '' : 's' }} remaining (200 max.)</p>
                 </div>
-                <div class="errorText" v-if="!$v.newItem.description.required && $v.newItem.description.$dirty">Restaurant name can not be blank</div>
-                <div class="errorText" v-if="!$v.newItem.description.minLength && $v.newItem.description.$dirty">Restaurant
-                    name must have at least {{$v.newItem.description.$params.minLength.min}} letters</div>
+                <div class="errorText" v-if="!$v.newRestaurant.description.required && $v.newRestaurant.description.$dirty">Restaurant name can not be blank</div>
+                <div class="errorText" v-if="!$v.newRestaurant.description.minLength && $v.newRestaurant.description.$dirty">Restaurant
+                    name must have at least {{$v.newRestaurant.description.$params.minLength.min}} letters</div>
             </div>
         </div>
         <div class="row m-t-15">
@@ -36,7 +36,7 @@
         name: "NewRestaurant",
         data: function () {
             return {
-                newItem: {
+                newRestaurant: {
                     name: "",
                     description: ""
                 }
@@ -61,7 +61,7 @@
                     });
                     return;
                 }
-                this.$http.post('/company/create', this.newItem, { emulateJSON: true })
+                this.$http.post('/company/create', this.newRestaurant, { emulateJSON: true })
                     .then(function () {
                         this.$notify({
                             group: "notifications",
@@ -74,7 +74,7 @@
             }
         },
         validations: {
-            newItem: {
+            newRestaurant: {
                 name: {
                     required,
                     minLength: minLength(3)
