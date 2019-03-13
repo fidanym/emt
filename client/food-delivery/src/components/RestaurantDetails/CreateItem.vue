@@ -25,7 +25,7 @@
                     <input type="text" :class="{error: $v.newItem.price.$invalid && $v.newItem.price.$dirty}" @blur="$v.newItem.price.$touch()" class="form-control" name="item_price" id="item_price" v-model="newItem.price">
                 </div>
                 <div class="errorText" v-if="!$v.newItem.price.required && $v.newItem.price.$dirty">Price can not be blank</div>
-                <div class="errorText" v-if="!$v.newItem.price.numeric && $v.newItem.numeric.$dirty">Price must be in numbers</div>
+                <div class="errorText" v-if="!$v.newItem.price.decimal && $v.newItem.price.$dirty">Price must be in numbers</div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
@@ -113,7 +113,7 @@
                 },
                 price: {
                     required,
-                    numeric
+                    decimal
                 }
             }
         },
