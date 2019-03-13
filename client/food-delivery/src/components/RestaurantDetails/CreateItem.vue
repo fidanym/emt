@@ -47,7 +47,7 @@
 </template>
 
 <script>
-    import { required, minLength, numeric } from 'vuelidate/lib/validators'
+    import { required, minLength, decimal } from 'vuelidate/lib/validators'
     export default {
         name: "CreateItem",
         data: function () {
