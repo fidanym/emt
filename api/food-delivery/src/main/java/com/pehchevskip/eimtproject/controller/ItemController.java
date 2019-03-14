@@ -61,9 +61,15 @@ public class ItemController {
 
         Optional<User> user = userService.findByUsername(currentUsername);
 
+        Optional<Item> found = itemService.findById(item.getId());
+
+        if (!found.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
         if (!(user.get().getRole().equals(Role.SUPER_ADMIN)
                 || (user.get().getRole().equals(Role.ADMIN)
-                && item.getCompany().getId().equals(user.get().getCompany().getId())))) {
+                && found.get().getCompany().getId().equals(user.get().getCompany().getId())))) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 

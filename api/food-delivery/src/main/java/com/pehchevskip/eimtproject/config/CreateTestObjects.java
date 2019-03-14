@@ -43,17 +43,24 @@ public class CreateTestObjects implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        Long[] companiesIds = createCompanies(descriptions, "Restoran Bolero", "Restoran Mrs", "Restoran Dionis");
+        Long[] companiesIds = createCompanies(descriptions, "Restoran Skopski Merak", "Restoran Dionis", "Restoran Enriko");
         Long comp1 = companiesIds[0];
         Long comp2 = companiesIds[1];
         Long comp3 = companiesIds[2];
 
         createUsers(new String[] { "pehchevskip", "jovanovskij", "markovskim" },
+                    new String[] { "Petar", "Jovan", "Marko" },
                     new Role[] { Role.SUPER_ADMIN, Role.ADMIN, Role.CLIENT });
 
-        createItems(new String[]{ "Kebab", "Stek", "Pleskavica", "Raznic", "Pizza", "Pastramajlija", "Pasta Quattro Formaggi", "Pasta Carbonara" },
-                    new double[]{ 10, 110, 120, 30, 130, 130, 150, 140 },
-                    new Long[]{ comp1, comp1, comp1, comp2, comp2, comp2, comp3, comp3 });
+        createItems(new String[]{ "Kebab", "Stek", "Pleskavica", "Polnet stek", "Sarska pleskavica", "Pecurki na zar",
+                        "Raznic", "Pizza", "Pastramajlija", "Oriz vo kari sos", "Oriz vo sos od maslinki",
+                        "Pasta Quattro Formaggi", "Mac and Cheese", "Pasta Carbonara", "Pizza Calzone", "Pizza Margherita" },
+                    new double[]{ 10, 110, 120, 130, 130, 140,
+                            30, 130, 130, 100, 110,
+                            150, 140, 130, 140, 120 },
+                    new Long[]{ comp1, comp1, comp1, comp1, comp1, comp1,
+                            comp2, comp2, comp2, comp2, comp2,
+                            comp3, comp3, comp3, comp3, comp3 });
     }
 
     private Long[] createCompanies(String[] descriptions, String... companiesNames) {
@@ -68,9 +75,9 @@ public class CreateTestObjects implements CommandLineRunner {
         return result.toArray(new Long[]{});
     }
 
-    private void createUsers(String[] userNames, Role[] roles) {
+    private void createUsers(String[] userNames, String [] firstNames, Role[] roles) {
         for (int i = 0; i < userNames.length; ++i) {
-            String firstName = capitalize(String.valueOf(userNames[i].charAt(userNames[i].length()-1)));
+            String firstName = firstNames[i];
             String lastName = capitalize(userNames[i].substring(0, userNames[i].length()-1));
             String password = passwordEncoder.encode("password");
             String address = addresses[rand.nextInt(addresses.length)];
